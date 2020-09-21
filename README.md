@@ -20,4 +20,4 @@ The file `autostart` for the lxsession autostart file needs to be put in place:
 `lx=~/.config/lxsession/LXDE; mkdir -p "$lx"; cp autostart "$lx"`
 
 Cron needs to be set up to start the webserver on reboot:
-`crontab < <(crontab -l; echo "@reboot /home/pi/git/startweb")`
+`crontab < <(crontab -l; echo "@reboot $HOME/git/startweb")`
