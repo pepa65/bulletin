@@ -1,13 +1,14 @@
 # bulletin
 **Running a editable bulletin page on a screen attached to a Raspberry Pi**
 
-* Required: chromium-browser php-fpm(or any web server) lxsession(Raspberry OS)
+* Required: chromium-browser php-fpm unclutter lxsession(Raspberry OS)
 
 ## Install
 The file `autostart` contains the content of the lxsession autostart file
 `/etc/xdg/lxsession/LXDE-pi/autostart`:
 ```
-@lxpanel --profile LXDE-pi
+@lxpanel --profile LXDE
+#@pcmanfm --desktop --profile LXDE
 @unclutter -idle 0
 @xset s off
 @xset -dpms
