@@ -14,8 +14,13 @@
 <script>
 setInterval(
 	function(){
-		var aqi = Math.floor(Math.random()*50);
-		document.getElementById("aqi").innerHTML = aqi;}, 300000);
+		fetch('aqi.txt')
+			.then(resp => resp.text())
+			.then(text => document.getElementById('aqi').innerHTML = text)
+		fetch('bg.txt')
+			.then(resp => resp.text())
+			.then(text => document.getElementById('aqi').style.backgroundColor = text)
+	}, 30000);
 </script>
 <div class="banner">
  <img class="logo" src="logo.svg" width="100px">
