@@ -1,9 +1,8 @@
-@lxpanel --profile LXDE-pi
-#@pcmanfm --desktop --profile LXDE-pi
+#@lxpanel --profile LXDE
+#@pcmanfm --desktop --profile LXDE
 #@xscreensaver -no-splash
-@unclutter -idle 0
 @xset s off
 @xset -dpms
 @xset s noblank
-@chromium-browser --noerrdialogs --incognito --kiosk https://aqi.4e4.win --check-for-update-interval=31536000 # '1' might also work
-
+@unclutter -idle 0
+@chromium-browser --kiosk http://localhost:8888/index.html --check-for-update-interval=31536000 --noerrdialogs --incognito &

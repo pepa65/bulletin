@@ -11,10 +11,16 @@
 <link rel="stylesheet" href="medium/css/medium-editor.min.css">
 <link rel="stylesheet" href="medium/css/themes/beagle.min.css">
 <link rel="stylesheet" href="medium/css/medium-editor-tables.min.css">
+<script>
+setInterval(
+	function(){
+		var aqi = Math.floor(Math.random()*50);
+		document.getElementById("aqi").innerHTML = aqi;}, 300000);
+</script>
 <div class="banner">
  <img class="logo" src="logo.svg" width="100px">
  <p class="title">CRICS Bulletin
- <p class="aqi">AQI <span class="aqinumber">16</span>
+ <p class="aqi">AQI <span id="aqi">16</span>
 </div>
 <div class="page">
  <div class="editable">
