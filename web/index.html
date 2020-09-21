@@ -12,15 +12,14 @@
 <link rel="stylesheet" href="medium/css/themes/beagle.min.css">
 <link rel="stylesheet" href="medium/css/medium-editor-tables.min.css">
 <script>
-setInterval(
-	function(){
-		fetch('aqi.txt')
-			.then(resp => resp.text())
-			.then(text => document.getElementById('aqi').innerHTML = text)
-		fetch('bg.txt')
-			.then(resp => resp.text())
-			.then(text => document.getElementById('aqi').style.backgroundColor = text)
-	}, 30000);
+setInterval(function(){
+	fetch('aqi.txt')
+		.then(resp => resp.text())
+		.then(text => document.getElementById('aqi').innerHTML = text)
+	fetch('bg.txt')
+		.then(resp => resp.text())
+		.then(text => document.getElementById('aqi').style.backgroundColor = text)
+}, 30000);
 </script>
 <div class="banner">
  <img class="logo" src="logo.svg" width="100px">
