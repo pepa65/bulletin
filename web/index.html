@@ -11,12 +11,10 @@
 <link rel="stylesheet" href="medium/css/medium-editor.min.css">
 <link rel="stylesheet" href="medium/css/themes/beagle.min.css">
 <link rel="stylesheet" href="medium/css/medium-editor-tables.min.css">
-<script>
-</script>
 <div class="banner">
  <img class="logo" src="logo.svg" width="100px">
  <p class="title">CRICS Bulletin
- <p class="aqi">AQI <span id="aqi">16</span>
+ <p class="aqi">AQI <span id="aqi">1</span>
 </div>
 <div class="page">
  <div class="editable">
@@ -102,12 +100,12 @@ var editor = new MediumEditor('.editable', {
 	},
 });
 setInterval(function(){
+	// editor.getContent()
 	fetch('aqi.txt')
 		.then(resp => resp.text())
-		.then(text => document.getElementById('aqi').innerHTML = text);
-	document.getElementById('aqi').innerHTML = editor.length;
+		.then(text => document.getElementById('aqi').innerHTML = text)
 	fetch('bg.txt')
 		.then(resp => resp.text())
-		.then(text => document.getElementById('aqi').style.backgroundColor = text);
+		.then(text => document.getElementById('aqi').style.backgroundColor = text)
 }, 300000);
 </script>
