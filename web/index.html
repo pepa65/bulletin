@@ -7,7 +7,7 @@
 <meta name="date" content="2020-09-21">
 <meta name="reply-to" content="itteam@crics.asia">
 <link rel="icon" href="logo.svg">
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="medium/css/medium-editor.min.css">
 <link rel="stylesheet" href="medium/css/themes/beagle.min.css">
 <link rel="stylesheet" href="medium/css/medium-editor-tables.min.css">
@@ -17,67 +17,7 @@
  <p class="aqi">AQI <span id="aqi">1</span>
 </div>
 <div class="page">
- <div class="editable">
-<h4>Complete the Student Medical Information Form</h4>
-All students must have an updated medical form on file. Please use this link to complete the Student Medical Information Form online before September 24 if you haven’t signed a paper version already for this school year. (This is not for Kindergarten.) Thank you for helping us keep our students safe!
-<h4>The Ebeling Family</h4>
-Most of you are aware that the Ebelings continue pressing on through Covid illness and a required Bangkok hospital 30 day quarantine. Keep praying for complete health for Eric, Rutha, Jadon and Esther.
-
-Also, some individuals created a GoFundMe campaign to help the Ebelings with the surprise costs encountered by this health emergency and extended hospital stay. Please consider sharing the GoFundMe link on your Facebook or Instagram account in order to spread word about this effort to help the Ebelings.
-<h3>CALENDAR</h3>
-<ul>
-<li><b>September 12</b> Student Leadership Training (invitation only)
-<li><b>September 14-18</b> MAP Testing (grades 3-9)
-<li><b>September 15</b> Chapel - Mrs Julie will be sharing in chapel after a short presentation by the grade 1 class. Please join us on the journey in chapel @ 8:00 am
-<br>Middle School Youth Group at Han Jo's Family's ministry center @ 6:30-8:30 pm
-<li><b>September 17</b> Back to the Cross Rehearsal @ 4:00-5:30 pm
-<li><b>September 18</b> Senior Book Sale
-<li><b>September 19-20</b> Family Weekend
-<li><b>September 24</b> Secondary Open House (grades 7-12) @ 6:30-9:00 pm
-<br>Important for all families of students in grades 7-12.
-<li><b>September 25</b> Late Start @ 9:00 am
-<br>Sound and Lights Rehearsal for Back to the Cross @ 4:00 pm
-</ul>
-<h3>REMINDERS</h3>
-<h5>Student and Staff IDs</h5>
-Any students or staff members who have a new ID card with a barcode on the side will need to use that card to scan at the entrance to campus. Please have your ID cards ready to check in and check out each day!
-<h5>Senior Fundraiser</h5>
-Seniors will be selling drinks on Monday, Wednesday and Friday.  They can be ordered at morning break and will be delivered at lunch.
-<h5>Accounting</h5>
-A friendly reminder to let the office know when you’ve made a payment online or via bank transfer.  This helps them to credit the correct account.  Thanks.
-<h4>Athletics</h4>
-<h5>Soccer grades 8-12</h5>
-<h6>Girls: 4:00-5:30 pm</h6>
-Monday Sep.14
-<br>Friday Sep.17
-<h6>Boys: 4:00-5:30 pm</h6>
-Tuesday Sep.15
-<br>Thursday Sep.17
-<h5>Elementary Basketball</h5>
-<h6>Grades 3-5: Mondays 4:00-5:15 pm</h6>
-Monday 14th
-<h6>Grades 6-8 Girls: Tuesdays from 4:00-5:15 pm</h6>
-Tuesday 15th
-<h6>Grades 6-8 Boys: Wednesdays from 4:00-5:15 pm</h6>
-Wednesday 16th
-<h5>Gymnastics</h5>
-<h6>Kindergarten: Mondays 4:00-4:45 pm</h6>
-Monday Sep.14
-<br>Monday Sep.21
-<br>Monday Sep.28
-<br>Monday Oct.5
-<br>Monday Oct.12
-<br>Monday Oct.19 - Final Day: Exhibition
-<h6>Grade 1 & 2: Fridays 4:00-5:00 pm</h6>
-Friday Sep.11
-<br>Friday Sep.18
-<br>Friday Sep.25
-<br>Friday Oct.2
-<br>(Friday Oct.9 No Gymnastics)
-<br>Friday Oct.16
-<br>(Friday Oct.23 No Gymnastics)
-<br>Friday Oct.30 - Final Day: Exhibition
- </div>
+ <div class="editable"></div>
 </div>
 <script src="medium/js/medium-editor.min.js"></script>
 <script src="medium/js/medium-editor-tables.min.js"></script>
@@ -99,8 +39,12 @@ var editor = new MediumEditor('.editable', {
 		table: new MediumEditorTable()
 	},
 });
-setInterval(function(){
-	// editor.getContent()
+setInterval(function(){ // Save content every 5 seconds
+	content = editor.getContent();
+	if(content.length){localStorage.setItem('html', content);}
+	else{editor.setContent(localStorage.getItem('html'));}
+}, 5000);
+setInterval(function(){ // Get AQI every 5 minutes
 	fetch('aqi.txt')
 		.then(resp => resp.text())
 		.then(text => document.getElementById('aqi').innerHTML = text)
