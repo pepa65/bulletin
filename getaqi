@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Read AQI and color values and store them in files
 
 a4w=$(wget -qO- aqi.4e4.win)
