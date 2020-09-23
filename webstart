@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Run by cron @reboot
 
-[[ $- = *i* ]] && null='>/dev/null' || sleep 30
+null=
+[[ $- = *i* ]] && null='2>/dev/null' || sleep 60
 php -S bulletin:8888 -t ~/git/bulletin/web $null &
