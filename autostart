@@ -5,4 +5,4 @@
 @xset -dpms
 @xset s noblank
 @unclutter -idle 0
-@chromium-browser --kiosk http://localhost:8888/index.html --check-for-update-interval=31536000 --noerrdialogs --incognito &
+@chromium-browser --kiosk http://bulletin:8888/index.html --check-for-update-interval=31536000 --noerrdialogs --incognito &

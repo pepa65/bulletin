@@ -1,5 +1,7 @@
 #!/bin/sh
+# Read AQI and color values and store them in files
 
-a4w=$(wget -qO- aqi.4e4.win) || exit 1
+a4w=$(wget -qO- aqi.4e4.win)
+[[ $a4w ]] || exit 1
 echo "$a4w" |grep aqinumber | tr -c -d 0123456789 >~/git/bulletin/web/aqi.txt
 echo "$a4w" |grep -o 'rgba[^"]*' >~/git/bulletin/web/bg.txt

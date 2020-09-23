@@ -1,3 +1,5 @@
 #!/bin/sh
+# Run by cron @reboot
+
 sleep 20
-php -S localhost:8888 -t ~/git/bulletin/web &
+php -S bulletin:8888 -t ~/git/bulletin/web &
