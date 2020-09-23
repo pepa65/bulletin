@@ -4,3 +4,6 @@
 null=/dev/stderr
 [[ -t 1 ]] && null='/dev/null' || sleep 60
 php -S bulletin:8888 -t ~/git/bulletin/web 2>$null &
+pid=$!
+[[ -t 1 ]] && sleep 1 &&
+	echo -e "Terminate web server ($pid) by:\nskill -v -p $pid"
