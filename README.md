@@ -34,7 +34,7 @@ The file `autostart` for the lxsession autostart file needs to be put in place:
 
 Cron needs to be set up to start the webserver on reboot:
 
-`crontab < <(crontab -l; echo "@reboot $HOME/git/bulletin/startweb")`
+`crontab < <(crontab -l; echo "@reboot $HOME/git/bulletin/webstart")`
 
 Cron needs to be set up to get the AQI every 5 minutes:
 
