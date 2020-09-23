@@ -35,6 +35,22 @@ var editor = new MediumEditor('.editable', {
 	paste: {
 		forcePlainText: false,
 	},
+	placeholder: {
+		text: 'Empty right now... Click to start editing.',
+		hideOnClick: true
+	},
+	keyboardCommands: {commands: [
+		{command:'bold', key:'B', meta:true, shift:false, alt:true},
+		{command:'italic', key:'I', meta:true, shift:false, alt:true},
+		{command:'underline', key:'U', meta:true, shift:false, alt:true},
+		{command:'strikethrough', key:'S', meta:true, shift:false, alt:true},
+		{command:'append-h1', key:'1', meta:true, shift:false, alt:false},
+		{command:'append-h2', key:'2', meta:true, shift:false, alt:false},
+		{command:'append-h3', key:'3', meta:true, shift:false, alt:false},
+		{command:'append-h4', key:'4', meta:true, shift:false, alt:false},
+		{command:'append-h5', key:'5', meta:true, shift:false, alt:false},
+		{command:'append-h6', key:'6', meta:true, shift:false, alt:false},
+	]},
 	extensions: {
 		table: new MediumEditorTable()
 	},

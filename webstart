@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Run by cron @reboot
 
-[[ $- = *i* ]] || sleep 30
-php -S bulletin:8888 -t ~/git/bulletin/web &
+[[ $- = *i* ]] && null='>/dev/null' || sleep 30
+php -S bulletin:8888 -t ~/git/bulletin/web $null &
