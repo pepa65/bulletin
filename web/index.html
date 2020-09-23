@@ -4,7 +4,7 @@
 <title>CRICS Bulletin</title>
 <meta name="abstract" content="index.html">
 <meta name="copyright" content="CRICS">
-<meta name="date" content="2020-09-21">
+<meta name="date" content="2020-09-23">
 <meta name="reply-to" content="itteam@crics.asia">
 <link rel="icon" href="logo.svg">
 <link rel="stylesheet" href="style.css">
@@ -14,7 +14,7 @@
 <div class="banner">
  <img class="logo" src="logo.svg" width="100px">
  <p class="title">CRICS Bulletin
- <p class="aqi">AQI <span id="aqi"></span>
+ <p class="aqi">AQI <span id="aqi">-</span>
 </div>
 <div class="page">
  <div class="editable"></div>
@@ -55,17 +55,21 @@ var editor = new MediumEditor('.editable', {
 		table: new MediumEditorTable()
 	},
 });
-setInterval(function(){ // Save content every 5 seconds
+function save(){ // Save content if not empty, restore otherwise
 	content = editor.getContent();
-	if(content.length){localStorage.setItem('html', content);}
-	else{editor.setContent(localStorage.getItem('html'));}
-}, 5000);
-setInterval(function(){ // Get AQI every 5 minutes
+	if(content.length) localStorage.setItem('html', content);
+	else editor.setContent(localStorage.getItem('html'));
+}
+// Save content now and every 5 seconds
+save(); setInterval(save, 5000);
+function aqi(){ // Fetch AQI and color and store in files
 	fetch('aqi.txt')
 		.then(resp => resp.text())
 		.then(text => document.getElementById('aqi').innerHTML = text)
 	fetch('bg.txt')
 		.then(resp => resp.text())
 		.then(text => document.getElementById('aqi').style.backgroundColor = text)
-}, 300000);
+}
+// Get AQI now and every 5 minutes
+aqi(); setInterval(aqi, 300000);
 </script>
