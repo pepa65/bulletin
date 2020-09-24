@@ -12,11 +12,6 @@ fi
 
 null=/dev/stderr
 [[ -t 1 ]] && null='/dev/null' || sleep 120
+pgrep -f "$cmd" && echo "Web server was running already " && exit 2
 $cmd 2>$null &
-pid=$!
-if [[ -t 1 ]]
-then
-	[[ -z $(ps --no-headers $pid) ]] &&
-		echo "Error $err starting webserver (already running??)" && exit 1
-	echo -e "Web server started ($pid). Terminate by: $0 stop"
-fi
+echo "Web server started, terminate by: $0 stop"
