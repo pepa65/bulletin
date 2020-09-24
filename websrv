@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Run by cron @reboot
+
+mainuser=$(grep ':x:1000:1000:' /etc/passwd |cut -d':' -f1)
+cmd="/usr/bin/php -S bulletin:8888 -t /home/$mainuser/git/bulletin/web"
+if [[ $1 = stop || $1 = kill ]]
+then
+	pkill -f "$cmd" && echo "Web server terminated" && exit 0
+	echo "Web server was not running"
+	exit 1
+fi
+
+null=/dev/stderr
+[[ -t 1 ]] && null='/dev/null' || sleep 120
+$cmd 2>$null &
+pid=$!
+if [[ -t 1 ]]
+then
+	[[ -z $(ps --no-headers $pid) ]] &&
+		echo "Error $err starting webserver (already running??)" && exit 1
+	echo -e "Web server started ($pid). Terminate by: $0 stop"
+fi
