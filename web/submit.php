@@ -33,3 +33,4 @@ aqi(); setInterval(aqi, 60000);
 ';
 file_put_contents($file, $page, LOCK_EX);
 header('Location: '.$file);
+?>

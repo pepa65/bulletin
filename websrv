@@ -16,8 +16,8 @@ else # Discard output if executed interactively
 	[[ -t 1 ]] && null=/dev/null
 fi
 
-# Wait 2 minutes if called from cron @reboot
-[[ -t 1 ]] || sleep 120
+# Wait 4 minutes if called from cron @reboot
+[[ -t 1 ]] || sleep 240
 
 pgrep -f "$cmd" && echo "Web server was running already " && exit 2
 $cmd 2>>"$null" &
