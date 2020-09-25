@@ -8,17 +8,12 @@ then
 	pkill -f "$cmd" && echo "Web server terminated" && exit 0
 	echo "Web server was not running"
 	exit 1
-elif [[ $1 = log ]]
-then # Log output
-	null=$0.log
-else # Discard output if executed interactively
-	null=/dev/stderr
-	[[ -t 1 ]] && null=/dev/null
 fi
 
 # Wait 4 minutes if called from cron @reboot
-[[ -t 1 ]] || sleep 240
+[[ -t 1 ]] || sleep 120
 
 pgrep -f "$cmd" && echo "Web server was running already " && exit 2
+[[ $1 = log ]] && null=$0.log || null=/dev/null
 $cmd 2>>"$null" &
 echo "Web server started, terminate by: $0 stop"
