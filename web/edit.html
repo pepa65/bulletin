@@ -27,23 +27,26 @@
 <script src="medium/js/medium-editor-tables.min.js"></script>
 <script>
 var editor = new MediumEditor(".editable", {
-	buttonLabels: false,
-	activeButtonClass: "medium-editor-button-active",
-	delay: 0,
-	toolbar: {
-		buttons: ["removeFormat", "bold", "italic", "underline", "strikethrough",
+	buttonLabels:false,
+	disableExtraSpaces:true,
+	activeButtonClass:"medium-editor-button-active",
+	delay:0,
+	toolbar:{
+		buttons:["removeFormat", "bold", "italic", "underline", "strikethrough",
 			"pre", "superscript", "h1", "h2", "h3", "h4", "h5", "h6",
 			"unorderedlist", "orderedlist", "indent", "outdent", "table"],
-		autoLink: false,
+		autoLink:false,
 	},
-	paste: {
-		forcePlainText: false,
+	paste:{
+		forcePlainText:false,
+		cleanPastedHTML:true,
+		unwrapTags:["div"],
 	},
-	placeholder: {
-		text: "Empty right now...\nClick here to start editing.",
-		hideOnClick: true
+	placeholder:{
+		text:"Empty right now...\nClick here to start editing.",
+		hideOnClick:true
 	},
-	keyboardCommands: {commands: [
+	keyboardCommands:{commands:[
 		{command:"bold", key:"B", meta:true, shift:false, alt:true},
 		{command:"italic", key:"I", meta:true, shift:false, alt:true},
 		{command:"underline", key:"U", meta:true, shift:false, alt:true},
@@ -55,8 +58,8 @@ var editor = new MediumEditor(".editable", {
 		{command:"append-h5", key:"5", meta:true, shift:false, alt:false},
 		{command:"append-h6", key:"6", meta:true, shift:false, alt:false},
 	]},
-	extensions: {
-		table: new MediumEditorTable()
+	extensions:{
+		table:new MediumEditorTable()
 	},
 });
 
