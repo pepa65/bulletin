@@ -16,41 +16,44 @@
  <p class="title">CRICS Bulletin Editor
 </div>
 <div class="page">
- <div class="editable"></div>
+ <hr><div class="editable"></div><hr>
 </div>
-<div onclick="submit()" id="submit">Send this to the Bulletin screen</div>
+<div class="bottom">
+ <div onclick="submit()" id="submit">⇨ Send to the screen</div>
+ <div onclick="restore()" id="restore">Restore ⏎ </div>
+</div>
 
 <script src="medium/js/medium-editor.min.js"></script>
 <script src="medium/js/medium-editor-tables.min.js"></script>
 <script>
-var editor = new MediumEditor('.editable', {
+var editor = new MediumEditor(".editable", {
 	buttonLabels: false,
-	activeButtonClass: 'medium-editor-button-active',
+	activeButtonClass: "medium-editor-button-active",
 	delay: 0,
 	toolbar: {
-		buttons: ['removeFormat', 'bold', 'italic', 'underline', 'strikethrough',
-			'pre', 'superscript', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-			'unorderedlist', 'orderedlist', 'table'],
+		buttons: ["removeFormat", "bold", "italic", "underline", "strikethrough",
+			"pre", "superscript", "h1", "h2", "h3", "h4", "h5", "h6",
+			"unorderedlist", "orderedlist", "indent", "outdent", "table"],
 		autoLink: false,
 	},
 	paste: {
 		forcePlainText: false,
 	},
 	placeholder: {
-		text: 'Empty right now... Click to start editing.',
+		text: "Empty right now...\nClick here to start editing.",
 		hideOnClick: true
 	},
 	keyboardCommands: {commands: [
-		{command:'bold', key:'B', meta:true, shift:false, alt:true},
-		{command:'italic', key:'I', meta:true, shift:false, alt:true},
-		{command:'underline', key:'U', meta:true, shift:false, alt:true},
-		{command:'strikethrough', key:'S', meta:true, shift:false, alt:true},
-		{command:'append-h1', key:'1', meta:true, shift:false, alt:false},
-		{command:'append-h2', key:'2', meta:true, shift:false, alt:false},
-		{command:'append-h3', key:'3', meta:true, shift:false, alt:false},
-		{command:'append-h4', key:'4', meta:true, shift:false, alt:false},
-		{command:'append-h5', key:'5', meta:true, shift:false, alt:false},
-		{command:'append-h6', key:'6', meta:true, shift:false, alt:false},
+		{command:"bold", key:"B", meta:true, shift:false, alt:true},
+		{command:"italic", key:"I", meta:true, shift:false, alt:true},
+		{command:"underline", key:"U", meta:true, shift:false, alt:true},
+		{command:"strikethrough", key:"S", meta:true, shift:false, alt:true},
+		{command:"append-h1", key:"1", meta:true, shift:false, alt:false},
+		{command:"append-h2", key:"2", meta:true, shift:false, alt:false},
+		{command:"append-h3", key:"3", meta:true, shift:false, alt:false},
+		{command:"append-h4", key:"4", meta:true, shift:false, alt:false},
+		{command:"append-h5", key:"5", meta:true, shift:false, alt:false},
+		{command:"append-h6", key:"6", meta:true, shift:false, alt:false},
 	]},
 	extensions: {
 		table: new MediumEditorTable()
@@ -60,26 +63,32 @@ var editor = new MediumEditor('.editable', {
 // Save content now and every 5 seconds
 function save(){ // Save content if not empty, restore otherwise
 	content = editor.getContent();
-	if(content.length) localStorage.setItem('html', content);
-	else editor.setContent(localStorage.getItem('html'));
+	if(content.length) localStorage.setItem("html", content);
+	else editor.setContent(localStorage.getItem("html"));
 }
 save(); setInterval(save, 5000);
 
+// Submit the content to the bulletin page
 function submit(){
-	var form = document.createElement('form');
-	form.setAttribute('method', 'POST');
-	form.setAttribute('action', 'submit.php');
+	var form = document.createElement("form");
+	form.setAttribute("method", "POST");
+	form.setAttribute("action", "submit.php");
 	var field = document.createElement("input");
 	field.setAttribute("type", "hidden");
-	field.setAttribute("name", 'data');
+	field.setAttribute("name", "data");
 	field.setAttribute("value", editor.getContent());
-	form.appendChild(field);
-	var field = document.createElement("input");
-	field.setAttribute("type", "hidden");
-	field.setAttribute("name", 'tst');
-	field.setAttribute("value", '<p>value of tst');
 	form.appendChild(field);
 	document.body.appendChild(form);
 	form.submit();
+}
+
+// Restore the editor from the bulletin page
+function restore(){
+	var req = new XMLHttpRequest();
+	req.open("GET", window.location.origin+"/index.html", false);
+	req.send();
+	stra = req.responseText.split('<div class="page">');
+	strb = stra[1].split("</div>");
+	editor.setContent(strb[0]);
 }
 </script>

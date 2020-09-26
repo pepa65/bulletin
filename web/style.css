@@ -1,9 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
 
-html {
-	height:100%;
-	margin:0;
-}
+html {height:100%; margin:0;}
 body {
 	background-color:white;
 	height:100%;
@@ -11,23 +8,15 @@ body {
 	font-family:'Oxygen',sans-serif;
 	font-size:110%;
 }
+hr {display:none;}
 h1 {font-size:250%; line-height:.3; margin:2% 0 2%;}
 h2 {font-size:200%; line-height:.3; margin:2% 0 2%;}
 h3 {font-size:170%; line-height:.3; margin:2% 0 2%;}
 h4 {font-size:150%; line-height:.3; margin:2% 0 2%;}
 h5 {font-size:130%; line-height:.3; margin:2% 0 1%;}
 h6 {font-size:110%; line-height:.3; margin:2% 0 1%;}
-.banner {
-	background-color:#2e368f;
-	height:100px;
-	width:100%;
-}
-.logo {
-	float:left;
-	padding-left:10px;
-	margin:10px;
-	height:80px;
-}
+.banner {background-color:#2e368f; height:100px; width:100%;}
+.logo {float:left; padding-left:10px; margin:10px; height:80px;}
 .title {
 	float:left;
 	padding-left:10px;
@@ -37,44 +26,32 @@ h6 {font-size:110%; line-height:.3; margin:2% 0 1%;}
 	color:white;
 	font-weight:700;
 }
-.aqi {
-	margin:15px;
-	float:right;
-	color:#000;
-	font-size:50px;
-	font-weight:900;
-}
-#aqi {
-	padding:0 10px;
-	background-color:rgba(32,255,16,.8);
-	border-radius:15px;
-}
-.editable {
-	outline-style:none;
-}
-.page {
-	width:96%;
-	margin:0 2%;
-}
-#submit {
-	margin: 20px 0 0;
+.aqi {margin:15px; float:right; color:#000; font-size:50px; font-weight:900;}
+#aqi {padding:0 10px; background-color:rgba(32,255,16,.8); border-radius:15px;}
+.editable {outline-style:none;}
+.page {width:96%; margin:0 2%;}
+.bottom {
 	width:100%;
-	background-color:yellow;
+	overflow:hidden;
+	margin:20px 0 0;
 	color:#000;
-	font-size: 60px;
+	font-size:60px;
 	font-weight:700;
 	height:80px;
 	cursor:pointer;
+	background-color:yellow;
 }
-img {
-	height:160px;
+#submit {float:left; padding:0 10px;}
+#restore {
+	float:right;
+	overflow:hidden;
+	background-color:orange;
+	padding:0 10px;
+	height:80px;
+	display:block;
+	z-index:1;
 }
-table {
-	border:2px solid #ccc;
-}
-td {
-	padding:5px;
-}
-tr:nth-child(even) {
-	background-color: #eee;
-}
+img {height:160px;}
+table {border:2px solid #ccc;}
+td {padding:5px;}
+tr:nth-child(even) {background-color: #eee;}
