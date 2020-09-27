@@ -5,4 +5,5 @@
 @xset -dpms
 @xset s noblank
 @unclutter -idle 0
+@/home/pi/git/bulletin/websrv
 @chromium-browser --kiosk http://bulletin:8888/index.html --check-for-update-interval=31536000 --noerrdialogs --incognito &
