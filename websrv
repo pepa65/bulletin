@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run by cron @reboot
+# Run by lxsession's autostart
 
 mainuser=$(grep ':x:1000:1000:' /etc/passwd |cut -d':' -f1)
 cmd="/usr/bin/php -S bulletin:8888 -t /home/$mainuser/git/bulletin/web"
@@ -9,9 +9,6 @@ then
 	echo "Web server was not running"
 	exit 1
 fi
-
-# Wait 4 minutes if called from cron @reboot
-[[ -t 1 ]] || sleep 120
 
 pgrep -f "$cmd" && echo "Web server was running already " && exit 2
 [[ $1 = log ]] && null=$0.log || null=/dev/null
