@@ -11,8 +11,8 @@ body {
 hr {display:none;}
 h1 {font-size:250%; line-height:.3; margin:2.5% 0 2%;}
 h2 {font-size:200%; line-height:.3; margin:2.5% 0 2%;}
-h3 {font-size:170%; line-height:.3; margin:2.5% 0 2%;}
-h4 {font-size:150%; line-height:.3; margin:2% 0 2%;}
+h3 {font-size:170%; line-height:.3; margin:2.5% 0 1.5%;}
+h4 {font-size:150%; line-height:.3; margin:2% 0 1.5%;}
 h5 {font-size:130%; line-height:.3; margin:2% 0 1%;}
 h6 {font-size:110%; line-height:.3; margin:2% 0 1%;}
 .banner {background-color:#2e368f; height:100px; width:100%;}
@@ -51,7 +51,7 @@ h6 {font-size:110%; line-height:.3; margin:2% 0 1%;}
 	display:block;
 	z-index:1;
 }
-img {height:160px; margin-top:5px;}
+img {height:120px; margin-top:5px;}
 table {border:2px solid #ccc;}
 td {padding:2px; width:auto; white-space:nowrap;}
 tr:nth-child(even) {background-color: #eee;}

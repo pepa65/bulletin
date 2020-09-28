@@ -3,6 +3,7 @@ $file = 'index.html';
 $page = '<!DOCTYPE html>
 <html lang="en">
 <meta charset="utf-8">
+<meta http-equiv="refresh" content="60">
 <title>CRICS Bulletin</title>
 <meta name="abstract" content="index.html">
 <meta name="copyright" content="CRICS">
