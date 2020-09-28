@@ -1,8 +1,8 @@
 # bulletin
 **Running a editable bulletin page on a screen attached to a Raspberry Pi**
 
-* Required: chromium-browser php-fpm unclutter lxsession(Raspberry OS)
-* Repo: gitlab.com/pepa65/bulletin
+* Required: git chromium-browser php-fpm unclutter xdotool lxsession(Raspbian)
+* Repo: https://gitlab.com/pepa65/bulletin
 
 ## Install
 
@@ -16,6 +16,9 @@ network. Find the IP address with `ip a`. Add this line to `/etc/hosts`:
 
 This allows the usage of `bulletin` to serve the files on.
 
+Install all the required packages:
+`apt install git chromium-browser php-fpm unclutter xdotool lxsession`
+
 ### Download
 `mkdir ~/git; cd ~/git; git clone https://gitlab.com/pepa65/bulletin`
 
@@ -26,6 +29,9 @@ If the display needs to be rotated, add a line like this to `/boot/config.txt`:
 `display_hdmi_rotate 3`
 
 Rotate display 90 degrees counter-clockwise with '3' ('1' is clockwise).
+
+If there is overscan (content not aligning well with screen edges), the
+`setoverscan` tool can be used from https://github.com/pepa65/setoverscan
 
 ### Autostart
 The file `autostart` for the lxsession autostart file needs to be put in place:

@@ -4,9 +4,9 @@ $page = '<!DOCTYPE html>
 <html lang="en">
 <meta charset="utf-8">
 <title>CRICS Bulletin</title>
-<meta name="abstract" content="index.html">
+<meta name="abstract" content="'.$file.'">
 <meta name="copyright" content="CRICS">
-<meta name="date" content="2020-09-23">
+<meta name="date" content="'.date("Y-m-d").'">
 <meta name="reply-to" content="itteam@crics.asia">
 <link rel="icon" href="logo.svg">
 <link rel="stylesheet" href="style.css">
@@ -19,18 +19,19 @@ $page = '<!DOCTYPE html>
 '.$_POST["data"].'
 </div>
 <script>
-// Read AQI now and every minute
 function aqi(){ // Fetch AQI and color and store in files
-  fetch("aqi.txt")
-    .then(resp => resp.text())
-    .then(text => document.getElementById("aqi").innerHTML = text)
-  fetch("bg.txt")
-    .then(resp => resp.text())
-    .then(text => document.getElementById("aqi").style.backgroundColor = text)
+	fetch("aqi.txt")
+		.then(resp => resp.text())
+		.then(text => document.getElementById("aqi").innerHTML = text);
+	fetch("bg.txt")
+		.then(resp => resp.text())
+		.then(text => document.getElementById("aqi").style.backgroundColor = text);
 }
+// Read AQI and color now and every minute
 aqi(); setInterval(aqi, 60000);
 </script>
 ';
 file_put_contents($file, $page, LOCK_EX);
+shell_exec('DISPLAY=:0 xdotool key F5');
 header('Location: '.$file);
 ?>
