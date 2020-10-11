@@ -26,6 +26,16 @@
 <script src="medium/js/medium-editor.min.js"></script>
 <script src="medium/js/medium-editor-tables.min.js"></script>
 <script>
+// Restore the editor from the bulletin page
+function restore(){
+	var req = new XMLHttpRequest();
+	req.open("GET", window.location.origin+"/index.html", false);
+	req.send();
+	stra = req.responseText.split('<div class="page">');
+	strb = stra[1].split("</div>");
+	editor.setContent(strb[0]);
+}
+
 var editor = new MediumEditor(".editable", {
 	buttonLabels:false,
 	disableExtraSpaces:true,
@@ -65,10 +75,14 @@ var editor = new MediumEditor(".editable", {
 });
 
 // Save content now and every 5 seconds
-function save(){ // Save content if not empty, restore otherwise
+function save(){ // Save content if not empty, restore otherwise (local/remote)
 	content = editor.getContent();
 	if(content.length) localStorage.setItem("html", content);
-	else editor.setContent(localStorage.getItem("html"));
+	else {
+		get = localStorage.getItem("html");
+		if (get!=null && get.length) editor.setContent(get);
+		else restore();
+	}
 }
 save(); setInterval(save, 5000);
 
@@ -84,15 +98,5 @@ function submit(){
 	form.appendChild(field);
 	document.body.appendChild(form);
 	form.submit();
-}
-
-// Restore the editor from the bulletin page
-function restore(){
-	var req = new XMLHttpRequest();
-	req.open("GET", window.location.origin+"/index.html", false);
-	req.send();
-	stra = req.responseText.split('<div class="page">');
-	strb = stra[1].split("</div>");
-	editor.setContent(strb[0]);
 }
 </script>
