@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<title>CRICS Bulletin</title>
+<meta name="abstract" content="index.html">
+<meta name="copyright" content="CRICS">
+<meta name="date" content="2020-10-18">
+<meta name="reply-to" content="itteam@crics.asia">
+<link rel="icon" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+<div class="banner">
+ <img class="logo" src="logo.svg" width="100px">
+ <p class="title">CRICS Bulletin
+ <p class="aqi">AQI <span id="aqi">-</span>
+</div>
+<div class="frame"><iframe title="Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vRvUDuEXVO03r8LiDLhtZHqMpqN1ByvpTYreV27QQdoT9cbZ1-xknPT-D2cYu_o8Cr6ZfsdCLJ167xI/embed?start=true&loop=true&delayms=10000&rm=minimal" frameborder="0" width="1920" height="980" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe></div>
+<script>
+function aqi(){ // Fetch AQI and color and store in files
+	fetch("aqi.txt")
+		.then(resp => resp.text())
+		.then(text => document.getElementById("aqi").innerHTML = text);
+	fetch("bg.txt")
+		.then(resp => resp.text())
+		.then(text => document.getElementById("aqi").style.backgroundColor = text);
+}
+// Read AQI and color now and every minute
+aqi(); setInterval(aqi, 60000);
+</script>
