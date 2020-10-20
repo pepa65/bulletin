@@ -1,7 +1,7 @@
 # bulletin
 **Running a editable bulletin page on a screen attached to a Raspberry Pi**
 
-* Required: git chromium-browser php-fpm unclutter xdotool lxsession(Raspbian)
+* Required: git chromium-browser unclutter xdotool lxsession(Raspbian)
 * Repo: https://gitlab.com/pepa65/bulletin
 
 ## Install
@@ -17,7 +17,7 @@ network. Find the IP address with `ip a`. Add this line to `/etc/hosts`:
 This allows the usage of `bulletin` to serve the files on.
 
 Install all the required packages:
-`apt install git chromium-browser php-fpm unclutter xdotool lxsession`
+`apt install git chromium-browser unclutter xdotool lxsession`
 
 ### Download
 `mkdir ~/git; cd ~/git; git clone https://gitlab.com/pepa65/bulletin`
