@@ -2,7 +2,8 @@
 
 html {height:100%; margin:0;}
 body {
-	background-color:black;
+	color:#fff;
+	background-color:#000;
 	height:100%;
 	margin:0;
 	font-family:'Oxygen',sans-serif;
@@ -10,17 +11,21 @@ body {
 	overflow:hidden;
 }
 .banner {background-color:#2e368f; height:100px; width:100%;}
-.logo {float:left; padding-left:10px; margin:10px; height:80px;}
+.logo {float:left; padding-left:10px; margin:10px; width:100px; height:80px;}
 .title {
 	float:left;
 	padding-left:10px;
 	margin:0;
   display:inline-block;
 	font-size:70px;
-	color:white;
 	font-weight:700;
 }
-.aqi {margin:15px; float:right; color:#000; font-size:50px; font-weight:900;}
-#aqi {padding:0 10px; background-color:rgba(32,255,16,.8); border-radius:15px;}
-.frame {CLIP:rect(200px 1200px 1600px 0px); position:absolute;}
-iframe{position:absolute; top:100; margin-top:-300px;  left:0; display:block; max-width:100%; border:0; margin:auto;}
+.aqi {margin:15px; float:right; color:#000; font-size:50px; font-weight:700;}
+#aqi {
+	padding:0 10px;
+	color:#fff;
+	background-color:rgba(32,255,16,.8);
+	border-radius:15px;
+}
+#slides {position:absolute; top:100px; clip:rect(0 1920px 980px 0);}
+iframe{border:0; margin:0; object-fit:none;}
