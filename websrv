@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# Run by lxsession's autostart
+# Started by lxsession's autostart
 
 mainuser=$(grep ':x:1000:1000:' /etc/passwd |cut -d':' -f1)
 cmd="/usr/bin/php -S bulletin:8888 -t /home/$mainuser/git/bulletin/web"
+
 if [[ $1 = stop || $1 = kill ]]
 then
 	pkill -f "$cmd" && echo "Web server terminated" && exit 0
@@ -11,6 +12,7 @@ then
 fi
 
 pgrep -f "$cmd" && echo "Web server was running already " && exit 2
+
 [[ $1 = log ]] && null=$0.log || null=/dev/null
 $cmd 2>>"$null" &
 echo "Web server started, terminate by: $0 stop"

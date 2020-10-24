@@ -1,7 +1,7 @@
 # bulletin
-**Running a editable bulletin page on a screen attached to a Raspberry Pi**
+**Running a Google slide show on a screen attached to a Raspberry Pi**
 
-* Required: git chromium-browser unclutter xdotool lxsession(Raspbian)
+* Required: git chromium-browser unclutter xdotool lxsession(Raspbian) php-fpm
 * Repo: https://gitlab.com/pepa65/bulletin
 
 ## Install
