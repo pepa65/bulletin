@@ -27,5 +27,5 @@ body {
 	background-color:rgba(32,255,16,.8);
 	border-radius:15px;
 }
-#slides {position:absolute; top:100px; clip:rect(0 1920px 980px 0);}
+#slides {position:absolute; top:100px; width:100%;}
 iframe{border:0; margin:0; object-fit:none;}
