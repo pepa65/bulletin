@@ -43,4 +43,4 @@ Cron needs to be set up to get the AQI every 5 minutes:
 `crontab < <(crontab -l; echo '*/5 * * * *' "$HOME/git/bulletin/getaqi")`
 
 Add crontab lines to turn the screen on & off at certain times:
-`crontab < <(crontab -l; echo -e "\n# Maybe On at 7:30 mo-fr\n"'30 7 * * 1-5' ""$HOME/git/bulletin/displ\n\n# Off at 17:30 mo-fr\n"'0 17 * * 1-5' ""$HOME/git/bulletin/displ off\n")`
+`crontab < <(crontab -l; echo -e "\n# Display maybe On at 7:30 Mo-Fr\n"'30 7 * * 1-5' ""$HOME/git/bulletin/displ\n\n# Display Off at 17:30 Mo-Fr\n"'0 17 * * 1-5' ""$HOME/git/bulletin/displ off\n")`
