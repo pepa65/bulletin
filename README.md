@@ -8,16 +8,14 @@
 
 ### Raspberry OS
 Install Raspberry OS. Use `raspi-config` to configure the wireless connection.
-Enabling an ssh server is recommended for remote access. Remote editing of the
-screen contents is the main idea, so the device needs to be accessible from the
-network. Find the IP address with `ip a`. Add this line to `/etc/hosts`:
-
-<ip-address>` bulletin`
-
-This allows the usage of `bulletin` to serve the files on.
+Enabling an ssh server is recommended for remote access.
 
 Install all the required packages:
 `apt install git chromium-browser unclutter xdotool lxsession`
+
+Add either a local (like 127.x.x.x) or an external IP address to`/etc/hosts`:
+
+`<ip-address> bulletin`
 
 ### Download
 `mkdir ~/git; cd ~/git; git clone https://gitlab.com/pepa65/bulletin`
@@ -38,6 +36,7 @@ The file `autostart` for the lxsession autostart file needs to be put in place:
 
 `lx=~/.config/lxsession/LXDE; mkdir -p "$lx"; cp autostart "$lx"`
 
-Cron needs to be set up to get the AQI every 5 minutes:
+Cron needs to be set up to get the AQI every 5 minutes
+(this requires https://aqi.4e4.win to work!):
 
 `crontab < <(crontab -l; echo '*/5 * * * *' "$HOME/git/bulletin/getaqi")`

@@ -15,4 +15,4 @@ pgrep -f "$cmd" && echo "Web server was running already " && exit 2
 
 [[ $1 = log ]] && null=$0.log || null=/dev/null
 $cmd 2>>"$null" &
-echo "Web server started, terminate by: $0 stop"
+echo "Web server started on http://bulletin:8888 - terminate by: $0 stop"

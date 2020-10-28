@@ -27,7 +27,7 @@ body {
 	background-color:rgba(32,255,16,.8);
 	border-radius:15px;
 }
-#slides {position:relative; padding-bottom:50%; height:0; overflow:hidden;}
+#slides {position:relative; overflow:hidden;}
 }
 iframe {
 	border:0;

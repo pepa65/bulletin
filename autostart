@@ -1,16 +1,22 @@
 #@lxpanel --profile LXDE
 #@pcmanfm --desktop --profile LXDE
 #@xscreensaver -no-splash
+
 # No screensaver
 @xset s off
+
 # No powermanager
 @xset -dpms
+
 # No screen blanking
 @xset s noblank
+
 # No cursor
 @unclutter -idle 0
+
 # Start php webserver (for aqi.txt and bg.txt)
 @/home/pi/git/bulletin/websrv
+
 # Start browser in kiosk-mode, with no update-available message ever,
 #  no error dialogs, and unencumbered
 @chromium-browser --kiosk http://bulletin:8888/index.html --check-for-update-interval=31536000 --noerrdialogs --incognito &
