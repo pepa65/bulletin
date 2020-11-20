@@ -37,7 +37,7 @@ The file `autostart` for the lxsession autostart file needs to be put in place:
 `lx=~/.config/lxsession/LXDE; mkdir -p "$lx"; cp autostart "$lx"`
 
 Cron needs to be set up to get the AQI every 5 minutes
-(this requires https://aqi.4e4.win to work!):
+(this requires https://aqi.crics.asia to work!):
 
 `crontab < <(crontab -l; echo '*/5 * * * *' "$HOME/git/bulletin/getaqi")`
 
