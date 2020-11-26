@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
-# Read AQI and color values and store them in files
+
+# getaqi - Read AQI and color values from aqi.crics.asia and save them in files
+# Required: wget grep
 
 a4w=$(wget -qO- aqi.crics.asia)
 [[ $a4w ]] || exit 1
-echo "$a4w" |grep aqinumber | tr -c -d 0123456789 >~/git/bulletin/web/aqi.txt
-echo "$a4w" |grep -o '#...' >~/git/bulletin/web/bg.txt
+
+dir=$(readlink -e $0) dir=${dir%/*}
+echo "$a4w" |grep aqinumber | grep -o '[0-9]*' >"$dir/web/aqi.txt"
+echo "$a4w" |grep -o '#...' >"$dir/web/bg.txt"
+
+exit 0

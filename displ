@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # displ - Turn raspberrypi display on and off
-# Usage: displ [on|off]
-#     If no argument, check ringdates whether today is a No-school day
+# Usage: displ [on|1 | off|0]
+#   If no argument, check ringdates whether today is a No-school day
 # Example crontab lines:
 #     30 7 * * 1-5 /home/pi/git/bulletin/displ
 #     0 17 * * 1-5 /home/pi/git/bulletin/displ off
 
-[[ $1 = on ]] && vcgencmd display_power 1 && exit 0
-[[ $1 = off ]] && vcgencmd display_power 0 && exit 0
+[[ $1 = on || $1 = 1 ]] && vcgencmd display_power 1 && exit 0
+[[ $1 = off || $1 = 0 ]] && vcgencmd display_power 0 && exit 0
 [[ -n $1 ]] &&
-	echo -e "Usage: ${0##*/} [on|off]\nWrong argument: '$1'" && exit 1
+	echo -e "Usage: ${0##*/} [on|1 | off|0]\nWrong argument: '$1'" && exit 1
 
 url='https://gitlab.com/pepa65/piring/raw/master/ringdates'
 ringdates=$(wget -qO- "$url") date=$(date '+%Y-%m-%d') noschool=0
@@ -18,7 +18,7 @@ grep -q "$date.$" <<<"$ringdates" && noschool=1
 grep -q "$date. " <<<"$ringdates" && noschool=1
 
 d=${date:0:4}${date:5:2}${date:8:2}
-for range in $(grep -o '^....-..-../....-..-....' <<<"$ringdates")
+for range in $(grep -o '^[^#]...-..-../....-..-..[^ ]*' <<<"$ringdates")
 do ((${#range}>21)) && continue  # Not a No-school range
 	r1=${range:0:4}${range:5:2}${range:8:2}
 	r2=${range:11:4}${range:16:2}${range:19:2}

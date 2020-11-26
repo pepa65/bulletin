@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# INSTALL - Run this to install piscreen/bulletin
+# Usage: INSTALL [URL]
+#   If the full URL is given, 'piscreen' gets installed, otherwise 'bulletin'
+
+apt-get install -y git chromium-browser unclutter xdotool lxsession php-fpm
+
+ip=$(ip a |grep -o 'inet[^ ]* [^/]*' |grep -v ' 127.' |grep -v ' ::1' |head -1)
+ip=${ip##* }
+echo "$ip bulletin" |sudo tee -a /etc/hosts
+
+mkdir ~/git
+cd ~/git
+git clone 'https://gitlab.com/pepa65/bulletin'
+cd bulletin
+
+lx=~/.config/lxsession/LXDE
+mkdir -p "$lx"
+if [[ $1 ]]
+then # 'piscreen'
+	# The sed s delimiters are tab-characters to avoid clashes with the URL!
+	sed "s	http://bulletin:8888/index.html	$1	" autostart >autostart_url
+	sed -i 's	^@~/git/bulletin/websrv	#@~/git/bulletin/websrv	' autostart_url
+	cp autostart_url "$lx"
+else # 'bulletin'
+	cp autostart "$lx"
+	crontab < <(crontab -l; echo -e "\n# Get AQI from aqi.crics.asia every 5 minutes\n"'*/5 * * * *' "$HOME/git/bulletin/getaqi\n")`
+fi
+
+crontab < <(crontab -l; echo -e "\n# Display maybe On at 7:30 Mo-Fr\n"'30 7 * * 1-5' "$HOME/git/bulletin/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$HOME/git/bulletin/displ off\n")
+
+exit 0
