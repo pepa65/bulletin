@@ -4,4 +4,4 @@
 a4w=$(wget -qO- aqi.crics.asia)
 [[ $a4w ]] || exit 1
 echo "$a4w" |grep aqinumber | tr -c -d 0123456789 >~/git/bulletin/web/aqi.txt
-echo "$a4w" |grep -o 'rgba[^"]*' >~/git/bulletin/web/bg.txt
+echo "$a4w" |grep -o '#...' >~/git/bulletin/web/bg.txt
