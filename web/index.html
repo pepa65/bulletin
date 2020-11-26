@@ -17,7 +17,10 @@
 function aqi(){ // Fetch AQI and color and store in files
 	fetch("aqi.txt")
 		.then(resp => resp.text())
-		.then(text => document.getElementById("aqi").innerHTML = text);
+		.then(text => {
+			document.getElementById("aqi").innerHTML = text;
+			if(text<251) document.getElementById("aqi").style.color = '#000';
+		});
 	fetch("bg.txt")
 		.then(resp => resp.text())
 		.then(text => document.getElementById("aqi").style.backgroundColor = text);
