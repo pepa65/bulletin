@@ -21,6 +21,10 @@ body {
 	font-weight:700;
 }
 .aqi {margin:15px; float:right; color:#000; font-size:50px; font-weight:700;}
+#time {
+	padding:0 10px;
+	color:#fff;
+}
 #aqi {
 	padding:0 10px;
 	color:#fff;

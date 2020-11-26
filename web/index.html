@@ -11,10 +11,12 @@
 <div class="banner">
  <img class="logo" src="logo.svg">
  <p class="title">CRICS Bulletin
- <p class="aqi">AQI <span id="aqi">-</span>
+ <p class="aqi"><span id="time"></span> AQI <span id="aqi">-</span>
 </div>
 <script>
-function aqi(){ // Fetch AQI and color and store in files
+function aqi(){ // Supply time, AQI and color
+	var t = new Date();
+	document.getElementById("time").innerHTML = t.getHours()+':'+t.getMinutes();
 	fetch("aqi.txt")
 		.then(resp => resp.text())
 		.then(text => {
@@ -25,7 +27,7 @@ function aqi(){ // Fetch AQI and color and store in files
 		.then(resp => resp.text())
 		.then(text => document.getElementById("aqi").style.backgroundColor = text);
 }
-// Read AQI and color now and every minute
+// Read time, AQI and color now and every minute
 aqi(); setInterval(aqi, 60000);
 </script>
 <div id="slides"><iframe title="Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vRvUDuEXVO03r8LiDLhtZHqMpqN1ByvpTYreV27QQdoT9cbZ1-xknPT-D2cYu_o8Cr6ZfsdCLJ167xI/embed?start=true&loop=true&delayms=10000&rm=minimal" width="1890" height="955" frameborder="0"></iframe></div>
