@@ -10,24 +10,27 @@ ip=$(ip a |grep -o 'inet[^ ]* [^/]*' |grep -v ' 127.' |grep -v ' ::1' |head -1)
 ip=${ip##* }
 echo "$ip bulletin" |sudo tee -a /etc/hosts
 
-mkdir ~/git
-cd ~/git
+cd -
+pwd=$PWD
+[[ $pwd = /home/pi ]] || sed -i "s@/home/pi@$pwd@" autostart
+mkdir git
+cd git
 git clone 'https://gitlab.com/pepa65/bulletin'
 cd bulletin
 
-lx=~/.config/lxsession/LXDE
+lx=$pwd/.config/lxsession/LXDE
 mkdir -p "$lx"
 if [[ $1 ]]
 then # 'piscreen'
 	# The sed s delimiters are tab-characters to avoid clashes with the URL!
-	sed "s	http://bulletin:8888/index.html	$1	" autostart >autostart_url
-	sed -i 's	^@~/git/bulletin/websrv	#@~/git/bulletin/websrv	' autostart_url
+	sed "s	http://localhost:8888/index.html	$1	" autostart >autostart_url
+	sed -i "s	^@$pwd/git/bulletin/websrv	#@$pwd/git/bulletin/websrv	" autostart_url
 	cp autostart_url "$lx"
 else # 'bulletin'
 	cp autostart "$lx"
-	crontab < <(crontab -l; echo -e "\n# Get AQI from aqi.crics.asia every 5 minutes\n"'*/5 * * * *' "$HOME/git/bulletin/getaqi\n")`
+	crontab < <(crontab -l; echo -e "\n# Get AQI from aqi.crics.asia every 5 minutes\n"'*/5 * * * *' "$pwd/git/bulletin/getaqi\n")`
 fi
 
-crontab < <(crontab -l; echo -e "\n# Display maybe On at 7:30 Mo-Fr\n"'30 7 * * 1-5' "$HOME/git/bulletin/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$HOME/git/bulletin/displ off\n")
+crontab < <(crontab -l; echo -e "\n# Display maybe On at 7:30 Mo-Fr\n"'30 7 * * 1-5' "$pwd/git/bulletin/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$pwd/git/bulletin/displ off\n")
 
 exit 0

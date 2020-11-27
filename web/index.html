@@ -16,7 +16,7 @@
 <script>
 function aqi(){ // Supply time, AQI and color
 	var t = new Date();
-	document.getElementById("time").innerHTML = t.getHours()+':'+t.getMinutes();
+	document.getElementById("time").innerHTML = t.format("HH:mm");
 	fetch("aqi.txt")
 		.then(resp => resp.text())
 		.then(text => {
