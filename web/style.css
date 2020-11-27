@@ -24,7 +24,6 @@ body {
 #aqi {
 	padding:0 10px;
 	color:#fff;
-	background-color:#2f1;
 	border-radius:15px;
 }
 #time {
@@ -33,7 +32,7 @@ body {
 	font-family:mono;
 	color:#fff;
 }
-#slides {position:relative; overflow:hidden;}
+#slides {position:absolute; overflow:hidden;}
 }
 iframe {
 	border:0;
