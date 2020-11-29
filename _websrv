@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Started by lxsession's autostart
+
+url='http://bulletin:8888'
+cmd="/usr/bin/php -S $url -t /home/pi/git/bulletin/web"
+
+if [[ $1 = stop || $1 = kill ]]
+then
+  pkill -f "$cmd" && echo "Web server terminated" && exit 0
+  echo "Web server was not running"
+  exit 1
+fi
+
+pgrep -f "$cmd" && echo "Web server was running already " && exit 2
+
+[[ $1 = log ]] && null=$0.log || null=/dev/null
+$cmd 2>>"$null" &
+echo "Web server started on $url - terminate by: $0 stop"
