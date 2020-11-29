@@ -15,17 +15,16 @@ git clone 'https://gitlab.com/pepa65/bulletin'
 cd bulletin
 
 cp _websrv websrv
-chmod + websrv
+chmod +x websrv
 [[ $IP ]] || ip=$(ip a |grep -o 'inet[^ ]* [^/]*' |grep -v ' 127.' |grep -v ' ::1' |head -1) IP=${ip##* }
 : ${PORT:=8888}
 sed -i "s@%IP@$IP@" websrv
 sed -i "s@%PORT@$PORT@" websrv
+# The sed s delimiters are tab-characters to avoid clashes with the URL!
+sed -i "s	%URL	$1	" websrv
 
 cp _autostart autostart
-# The sed s delimiters are tab-characters to avoid clashes with the URL!
-[[ $1 ]] && sed -i "s	%URL	$1	" autostart ||
-	sed -i "s	%URL	http://localhost:$PORT/index.html	" autostart
-[[ ! $pwd = /home/pi ]] && sed -i "s@/home/pi@$pwd@" autostart
+[[ $pwd = /home/pi ]] || sed -i "s@/home/pi@$pwd@" autostart
 lxconfdir=$pwd/.config/lxsession/LXDE
 mkdir -p "$lxconfdir"
 ln -sf "$PWD/autostart" "$lxconfdir"

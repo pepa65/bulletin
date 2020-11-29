@@ -1,38 +1,42 @@
 #!/usr/bin/env bash
-
+set -vx
 # websrv - Start php server and browser
 # Started by lxsession's autostart, can be started manually.
 # Environmental variables IP & PORT can be set for php server, and URL for the
 # URL to be served by the browser.
 
-: ${IP:=%IP}
-: ${PORT:=%PORT}
+: ${IP:=%IP} # Set from INSTALL
+: ${PORT:=%PORT} # Set from INSTALL
 url=$IP:$PORT
 [[ $url = %IP:%PORT ]] && echo "Change %IP and %PORT in websrv before use!" &&
 	exit 1
+: ${URL:=%URL} # Set from INSTALL
 : ${URL:=http://$url/index.html}
 cmd="/usr/bin/php -S $url -t $HOME/git/bulletin/web"
 
 if [[ $1 = stop || $1 = kill ]]
 then
-  pkill -f "$cmd" && echo "Web server terminated" && exit 0
-  echo "Web server was not running"
-  exit 1
+  pkill -f "$cmd" && echo "Web server terminated" ||
+	  echo "Web server was not running"
+	killall /usr/lib/chromium-browser/chromium-browser &&
+		echo "Browser terminated" ||
+		echo "Browser was not running"
+  exit 0
 fi
 
 pgrep -f "$cmd" && echo "Web server was running already " && exit 2
 
 [[ $1 = log ]] && null=$0.log || null=/dev/null
 $cmd 2>"$null" &
-OK=$?
-if ((OK))
+pid=$!
+sleep 3
+if kill -0 $pid
 then
 	# Prevent post-crash dialogs
 	sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' ~/.config/chromium/Default/Preferences
 	# Start browser in kiosk-mode, with no pinch allowed, allow file reads,
 	#  no update-available message ever, no error dialogs, and unencumbered.
-	chromium-browser $URL --kiosk --disable-pinch --all
-ow-file-access-from-files --check-for-update-interval=31536000 --noerrdialogs --incognito &
+	DISPLAY=:0 chromium-browser $URL --kiosk --disable-pinch --allow-file-access-from-files --check-for-update-interval=31536000 --noerrdialogs --incognito &
 	echo "Web server and browser started on http://$url"
 	echo "Terminate by:  $0 stop"
 else

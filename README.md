@@ -15,7 +15,6 @@
   `http://IP:8888/refresh.php` where IP is the IP address of the Pi.
 
 ## Install
-
 ### Raspberry OS
 Install Raspberry OS. Use `raspi-config` to configure the wireless connection.
 Enabling an ssh server is recommended for remote access.
@@ -32,15 +31,12 @@ If there is overscan (content not aligning well with screen edges), the
 `setoverscan` tool can be used from https://github.com/pepa65/setoverscan
 
 ### Application
-
 All the following can be done with 1 command, installing either 'bulletin'
 or 'piscreen':
-
 1. `bash INSTALL` # Installing **bulletin**
 2. `bash INSTALL 'https://aqi.crics.asia'` # Installing **piscreen** for URL
 
 ### Manual Install
-
 The assumption is that the user is `pi` with home `/home/pi`. The file
 `autostart` needs to be changed if not!
 
@@ -48,13 +44,6 @@ The assumption is that the user is `pi` with home `/home/pi`. The file
 Install all the required packages:
 
 `apt install git chromium-browser unclutter xdotool lxsession php-fpm`
-
-#### Hosts
-Add the external IP address to `/etc/hosts` by adding a line like:
-
-`<ip-address> bulletin`
-
-(Suitable IP addresses can be gleaned by: `ip a |grep -o 'inet[^ ]* [^/]*'`.)
 
 #### Download
 Clone the git repo:
@@ -68,9 +57,14 @@ The file `autostart` for the lxsession autostart file needs to be linked in:
 `cp _autostart autostart; ln -sf "$PWD/autostart" "$lxconfdir"`
 
 #### Set URL
+In `websrv` replace `%IP` & `%PORT` with the an IP address and port number.
+(Suitable IP addresses can be gleaned by: `ip a |grep -o 'inet[^ ]* [^/]*'`.)
+
 **For 'bulletin' set the Google slides base URL in `web/index.html`!**
 
-**For 'piscreen' set the URL in `autostart`!**
+**For 'piscreen' set the URL in `websrv`!**
+
+Replace %URL with the full URL of the page to be displayed.
 
 #### Set screentimes
 Add crontab lines to turn the screen on & off at certain times:
