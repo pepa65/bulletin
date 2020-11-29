@@ -41,8 +41,8 @@ or 'piscreen':
 
 ### Manual Install
 
-The assumption is that the user is `pi` with home `/home/pi`. The files
-`autostart` and `websrv` need to be changed if not!
+The assumption is that the user is `pi` with home `/home/pi`. The file
+`autostart` needs to be changed if not!
 
 #### Packages
 Install all the required packages:

@@ -24,4 +24,4 @@
 
 # Start browser in kiosk-mode, with no pinch allowed, allow file reads,
 #  no update-available message ever, no error dialogs, and unencumbered.
-@chromium-browser http://localhost:8888/index.html --kiosk --disable-pinch --allow-file-access-from-files --check-for-update-interval=31536000 --noerrdialogs --incognito &
+@chromium-browser %URL --kiosk --disable-pinch --allow-file-access-from-files --check-for-update-interval=31536000 --noerrdialogs --incognito &
