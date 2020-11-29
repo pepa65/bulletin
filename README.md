@@ -6,8 +6,13 @@
 
 * Required: chromium-browser unclutter xdotool lxsession(Raspbian)
 * Repo: https://gitlab.com/pepa65/bulletin
-* For 'bulletin': a Google slides base URL (see `web/index.html`, the part
-  after `src="` and before `/embed?`)
+* For **piscreen**: the files `index.html`, `logo.svg` and `style.css` in `web`
+  can (should!) be deleted.
+* For **bulletin**: a Google slides base URL to display (see `web/index.html`,
+  the part after `src="` and before `/embed?`). This URL is different from the
+  URL used for editing..!
+* In case the browser needs to be refreshed after a page change, go to
+  `http://IP:8888/refresh.php` where IP is the IP address of the Pi.
 
 ## Install
 
@@ -31,15 +36,18 @@ If there is overscan (content not aligning well with screen edges), the
 All the following can be done with 1 command, installing either 'bulletin'
 or 'piscreen':
 
-1. `bash INSTALL` # Installing 'bulletin'
-2. `bash INSTALL 'https://aqi.crics.asia'` # Installing 'piscreen' for URL
+1. `bash INSTALL` # Installing **bulletin**
+2. `bash INSTALL 'https://aqi.crics.asia'` # Installing **piscreen** for URL
 
 ### Manual Install
+
+The assumption is that the user is `pi` with home `/home/pi`. The files
+`autostart` and `websrv` need to be changed if not!
 
 #### Packages
 Install all the required packages:
 
-`apt install git chromium-browser unclutter xdotool lxsession`
+`apt install git chromium-browser unclutter xdotool lxsession php-fpm`
 
 #### Hosts
 Add the external IP address to `/etc/hosts` by adding a line like:
@@ -47,8 +55,6 @@ Add the external IP address to `/etc/hosts` by adding a line like:
 `<ip-address> bulletin`
 
 (Suitable IP addresses can be gleaned by: `ip a |grep -o 'inet[^ ]* [^/]*'`.)
-
-Only necessary when displaying local pages, for sure for 'bulletin'.
 
 #### Download
 Clone the git repo:
@@ -59,13 +65,12 @@ Clone the git repo:
 The file `autostart` for the lxsession autostart file needs to be linked in:
 
 `lxconfdir=~/.config/lxsession/LXDE; mkdir -p "$lxconfdir"`
-`cp autostart autostart_; ln -sf "$PWD/autostart_" "$lxconfdir"`
-
+`cp _autostart autostart; ln -sf "$PWD/autostart" "$lxconfdir"`
 
 #### Set URL
 **For 'bulletin' set the Google slides base URL in `web/index.html`!**
 
-**For 'piscreen' set the URL in `autostart_`!**
+**For 'piscreen' set the URL in `autostart`!**
 
 #### Set screentimes
 Add crontab lines to turn the screen on & off at certain times:
