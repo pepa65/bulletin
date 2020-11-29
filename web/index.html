@@ -17,13 +17,13 @@
 function aqi(){ // Supply time, AQI and color
 	document.getElementById("time").innerHTML =
 		(new Date()).toTimeString().substr(0,5);
-	fetch("aqi.txt")
+	fetch("https://aqi.crics.asia/aqi")
 		.then(resp => resp.text())
 		.then(text => {
 			document.getElementById("aqi").innerHTML = text;
 			if(text<251) document.getElementById("aqi").style.color = '#000';
 		});
-	fetch("bg.txt")
+	fetch("https://aqi.crics.asia/bg")
 		.then(resp => resp.text())
 		.then(text => document.getElementById("aqi").style.backgroundColor = text);
 }

@@ -29,7 +29,6 @@ body {
 #time {
 	margin:0 0 0 40px;
 	padding:0 10px;
-	font-family:mono;
 	color:#fff;
 }
 #slides {position:absolute; overflow:hidden;}

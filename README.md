@@ -1,13 +1,11 @@
 # piscreen
 **Displaying a webpage on a screen by a Raspberry Pi**
 
-* Required: chromium-browser unclutter xdotool lxsession(Raspbian)
-* Repo: https://gitlab.com/pepa65/bulletin
-
 # bulletin
 **Running a Google slide show on a screen attached to a Raspberry Pi**
 
-* Extra requirement: php-fpm
+* Required: chromium-browser unclutter xdotool lxsession(Raspbian)
+* Repo: https://gitlab.com/pepa65/bulletin
 
 ## Install
 
@@ -37,9 +35,9 @@ or 'piscreen':
 ### Manual Install
 
 #### Packages
-Install all the required packages (php-fpm not required for 'piscreen'):
+Install all the required packages:
 
-`apt install git chromium-browser unclutter xdotool lxsession php-fpm`
+`apt install git chromium-browser unclutter xdotool lxsession`
 
 #### Hosts
 Add the external IP address to `/etc/hosts` by adding a line like:
@@ -60,10 +58,7 @@ The file `autostart` for the lxsession autostart file needs to be put in place:
 
 `lx=~/.config/lxsession/LXDE; mkdir -p "$lx"; cp autostart "$lx"`
 
-Cron needs to be set up to get the AQI every 5 minutes
-(this requires https://aqi.crics.asia to work!) -- only for 'bulletin':
-
-`crontab < <(crontab -l; echo -e "\n# Get AQI from aqi.crics.asia every 5 minutes\n"'*/5 * * * *' "$HOME/git/bulletin/getaqi\n")`
+**For 'piscreen' the URL for the browser needs to be adapted!**
 
 Add crontab lines to turn the screen on & off at certain times:
 `crontab < <(crontab -l; echo -e "\n# Display maybe On at 7:30 Mo-Fr\n"'30 7 * * 1-5' "$HOME/git/bulletin/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$HOME/git/bulletin/displ off\n")`
