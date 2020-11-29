@@ -6,6 +6,8 @@
 
 * Required: chromium-browser unclutter xdotool lxsession(Raspbian)
 * Repo: https://gitlab.com/pepa65/bulletin
+* For 'bulletin': a Google slides base URL (see `web/index.html`, the part
+  after `src="` and before `/embed?`)
 
 ## Install
 
@@ -54,11 +56,17 @@ Clone the git repo:
 `mkdir ~/git; cd ~/git; git clone https://gitlab.com/pepa65/bulletin`
 
 #### Autostart
-The file `autostart` for the lxsession autostart file needs to be put in place:
+The file `autostart` for the lxsession autostart file needs to be linked in:
 
-`lx=~/.config/lxsession/LXDE; mkdir -p "$lx"; cp autostart "$lx"`
+`lxconfdir=~/.config/lxsession/LXDE; mkdir -p "$lxconfdir"`
+`cp autostart autostart_; ln -sf "$PWD/autostart_" "$lxconfdir"`
 
-**For 'piscreen' the URL for the browser needs to be adapted!**
 
+#### Set URL
+**For 'bulletin' set the Google slides base URL in `web/index.html`!**
+
+**For 'piscreen' set the URL in `autostart_`!**
+
+#### Set screentimes
 Add crontab lines to turn the screen on & off at certain times:
 `crontab < <(crontab -l; echo -e "\n# Display maybe On at 7:30 Mo-Fr\n"'30 7 * * 1-5' "$HOME/git/bulletin/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$HOME/git/bulletin/displ off\n")`
