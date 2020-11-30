@@ -20,10 +20,11 @@ function aqi(){ // Supply time, AQI and color
 	fetch("https://aqi.4e4.win/aqibg")
 		.then(resp => resp.text())
 		.then(text => {
-			var content = text.split('#');
-			document.getElementById("aqi").innerHTML = content[0];
-			document.getElementById("aqi").style.backgroundColor = '#'+content[1];
-			if(text<251) document.getElementById("aqi").style.color = '#000';
+			var aqibg = text.split(';');
+			var id = document.getElementById("aqi");
+			id.innerHTML = aqibg[0];
+			id.style.backgroundColor = aqibg[1];
+			if(text<251) id.style.color = '#000';
 		});
 }
 // Read time, AQI and color now and every minute
