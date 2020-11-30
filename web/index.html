@@ -17,15 +17,14 @@
 function aqi(){ // Supply time, AQI and color
 	document.getElementById("time").innerHTML =
 		(new Date()).toTimeString().substr(0,5);
-	fetch("https://aqi.crics.asia/aqi")
+	fetch("https://aqi.4e4.win/aqibg")
 		.then(resp => resp.text())
 		.then(text => {
-			document.getElementById("aqi").innerHTML = text;
+			var content = text.split('#');
+			document.getElementById("aqi").innerHTML = content[0];
+			document.getElementById("aqi").style.backgroundColor = '#'+content[1];
 			if(text<251) document.getElementById("aqi").style.color = '#000';
 		});
-	fetch("https://aqi.crics.asia/bg")
-		.then(resp => resp.text())
-		.then(text => document.getElementById("aqi").style.backgroundColor = text);
 }
 // Read time, AQI and color now and every minute
 aqi(); setInterval(aqi, 60000);
