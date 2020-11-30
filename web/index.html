@@ -24,7 +24,7 @@ function aqi(){ // Supply time, AQI and color
 			var id = document.getElementById("aqi");
 			id.innerHTML = aqibg[0];
 			id.style.backgroundColor = aqibg[1];
-			if(text<251) id.style.color = '#000';
+			if(aqibg[0]<251) id.style.color = '#000';
 		});
 }
 // Read time, AQI and color now and every minute
