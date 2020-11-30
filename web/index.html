@@ -17,7 +17,7 @@
 function aqi(){ // Supply time, AQI and color
 	document.getElementById("time").innerHTML =
 		(new Date()).toTimeString().substr(0,5);
-	fetch("https://aqi.4e4.win/aqibg")
+	fetch("https://aqi.crics.asia/aqibg")
 		.then(resp => resp.text())
 		.then(text => {
 			var aqibg = text.split(';');
