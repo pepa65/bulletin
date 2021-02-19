@@ -14,8 +14,7 @@
 url='https://gitlab.com/pepa65/piring/raw/master/ringdates'
 ringdates=$(wget -qO- "$url") date=$(date '+%Y-%m-%d') noschool=0
 grep -q "$date$" <<<"$ringdates" && noschool=1
-grep -q "$date.$" <<<"$ringdates" && noschool=1
-grep -q "$date. " <<<"$ringdates" && noschool=1
+grep -q "$date " <<<"$ringdates" && noschool=1
 
 d=${date:0:4}${date:5:2}${date:8:2}
 for range in $(grep -o '^[^#]...-..-../....-..-..[^ ]*' <<<"$ringdates")
