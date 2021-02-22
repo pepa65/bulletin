@@ -37,7 +37,7 @@ then
 	## Start browser in kiosk-mode, with no pinch allowed, allow file reads,
 	##  no update-available message ever, no error dialogs, and unencumbered.
 	#DISPLAY=:0 chromium-browser $URL --kiosk --disable-pinch --allow-file-access-from-files --check-for-update-interval=31536000 --noerrdialogs --incognito &
-	DISPLAY=:0 "$brw" -bmpF "$URL"
+	DISPLAY=:0 "$brw" -bmpF "$URL" &
 	echo "Web server and browser started on http://$site"
 	echo "Terminate by:  $0 stop"
 else
