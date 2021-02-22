@@ -5,7 +5,7 @@
 #   If the full URL is given, 'piscreen' gets installed, otherwise 'bulletin'
 #   Environment variables IP & PORT can be set for an IP address and port.
 
-apt-get install -y git chromium-browser unclutter xdotool lxsession php-fpm
+apt-get install -y git surf unclutter xdotool lxsession php-fpm
 
 cd -
 pwd=$PWD

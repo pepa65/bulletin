@@ -14,7 +14,7 @@
 @xset s noblank
 
 # No cursor
-@unclutter -idle 0
+@unclutter -idle 0.01
 
 # Start php webserver (for refresh.php) and browser
 @/home/pi/git/bulletin/websrv log

@@ -4,7 +4,7 @@
 # bulletin
 **Running a Google slide show on a screen attached to a Raspberry Pi**
 
-* Required: chromium-browser unclutter xdotool lxsession(Raspbian)
+* Required: surf unclutter xdotool lxsession(Raspbian)
 * Repo: https://gitlab.com/pepa65/bulletin
 * For **piscreen**: the files `index.html`, `logo.svg` and `style.css` in `web`
   can (should!) be deleted.
@@ -33,8 +33,8 @@ If there is overscan (content not aligning well with screen edges), the
 ### Application
 All the following can be done with 1 command, installing either 'bulletin'
 or 'piscreen':
-1. `bash INSTALL` # Installing **bulletin**
-2. `bash INSTALL 'https://aqi.crics.asia'` # Installing **piscreen** for URL
+1. `bash INSTALL`  # Installing **bulletin**
+2. `bash INSTALL 'https://aqi.crics.asia'`  # Installing **piscreen** for URL
 
 ### Manual Install
 The assumption is that the user is `pi` with home `/home/pi`. The file
@@ -43,7 +43,7 @@ The assumption is that the user is `pi` with home `/home/pi`. The file
 #### Packages
 Install all the required packages:
 
-`apt install git chromium-browser unclutter xdotool lxsession php-fpm`
+`apt install git surf unclutter xdotool lxsession php-fpm`
 
 #### Download
 Clone the git repo:
