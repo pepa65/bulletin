@@ -1,4 +1,4 @@
-# /home/pi/.config/lxsession/LXDE/autostart
+# /home/pi/.config/lxsession/LXDE*/autostart
 
 #@lxpanel --profile LXDE
 #@pcmanfm --desktop --profile LXDE
@@ -16,5 +16,5 @@
 # No cursor
 @unclutter -idle 0.01
 
-# Start php webserver (for refresh.php) and browser
-@/home/pi/git/bulletin/websrv log
+# Start the show
+@/home/pi/git/bulletin/show log

@@ -1,4 +1,4 @@
 <?php
-exec("DISPLAY=:0 xdotool key F5");
+exec("/home/pi/f5");
 print('<h1>Screen was refreshed</h1>');
 ?>

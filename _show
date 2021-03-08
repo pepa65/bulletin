@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set +vx
+# show - Start browser (and php server if needed)
+# Started by lxsession's autostart, can be started & stopped manually.
+# Environmental variables:
+# - SITE for the php server
+# - URL for the browser
+# Usage: show start|log | stop|kill
+
+SITE="$SITE"
+URL="$URL"
+[[ $URL ]] || URL="http://SITE/index.html"
+srv="/usr/bin/php -S $SITE -t $HOME/git/bulletin/web"
+brw='/usr/bin/surf -bmpF'
+
+if [[ $1 = stop || $1 = kill ]]
+then
+	[[ $SITE ]] && pkill -f "$srv" &&
+		echo "Web server terminated" ||
+		echo "Web server was not running"
+	pkill -f  "$brw" &&
+		echo "Browser terminated" ||
+		echo "Browser was not running"
+	exit 0
+elif [[ $1 = start || $1 = log ]]
+then
+	pgrep -f "$brw" &&
+		echo "Browser was running" ||
+		DISPLAY=:0 $brw "$URL" &
+	if pgrep -f "$srv"
+	then
+		echo "Web server was running"
+	else
+		[[ $1 = log ]] && null=$0.log || null=/dev/null
+		$srv 2>"$null" &
+		pid=$!
+		sleep 1
+		kill -0 $pid &&
+			echo "Web server started on http://$SITE" ||
+			echo "Failed to start web server on http://$SITE"
+	fi
+else
+	echo "Usage:  show start|log | stop|kill"
+fi

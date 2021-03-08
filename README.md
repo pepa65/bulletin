@@ -2,17 +2,14 @@
 **Displaying a webpage on a screen by a Raspberry Pi**
 
 # bulletin
-**Running a Google slide show on a screen attached to a Raspberry Pi**
+**Running a Google slide show with a top info bar on a screen attached to a Raspberry Pi**
 
 * Required: surf unclutter xdotool lxsession(Raspbian)
 * Repo: https://gitlab.com/pepa65/bulletin
-* For **piscreen**: the files `index.html`, `logo.svg` and `style.css` in `web`
-  can (should!) be deleted.
-* For **bulletin**: a Google slides base URL to display (see `web/index.html`,
-  the part after `src="` and before `/embed?`). This URL is different from the
-  URL used for editing..!
-* In case the browser needs to be refreshed after a page change, go to
-  `http://IP:8888/refresh.php` where IP is the IP address of the Pi.
+* In case the browser needs to be refreshed after a slides change, go to:
+  `http://SITE/refresh.php`
+* The script `f5` can be run to refresh the browser
+* The script `displ` can be run to turn the display on or off
 
 ## Install
 ### Raspberry OS
@@ -20,6 +17,7 @@ Install Raspberry OS. Use `raspi-config` to configure the wireless connection.
 Enabling an ssh server is recommended for remote access.
 
 ### Screen
+For the **bulletin** the `web/index.html` file assumes a screen size of 
 Configure the screen resolution with `raspi-config` (Advanced, Resolution).
 If the display needs to be rotated, add a line like this to `/boot/config.txt`:
 
@@ -30,15 +28,20 @@ If the display needs to be rotated, add a line like this to `/boot/config.txt`:
 If there is overscan (content not aligning well with screen edges), the
 `setoverscan` tool can be used from https://github.com/pepa65/setoverscan
 
-### Application
-All the following can be done with 1 command, installing either 'bulletin'
-or 'piscreen':
-1. `bash INSTALL`  # Installing **bulletin**
-2. `bash INSTALL 'https://aqi.crics.asia'`  # Installing **piscreen** for URL
+### Automated Install
+Download this file with wget:
+
+`wget -O https://github.com/pepa65/bulletin/raw/master/INSTALL`
+
+All the following can be done with 1 command, installing either **bulletin**
+or **piscreen**:
+1. `bash INSTALL <BASEURL> <IP:PORT>`  # Installing **bulletin** to display the
+   topbar and the BASEURL that are served on the Pi's IP address on PORT.
+2. `bash INSTALL <URL>`  # Installing **piscreen** for URL
 
 ### Manual Install
-The assumption is that the user is `pi` with home `/home/pi`. The file
-`autostart` needs to be changed if not!
+The assumption is that the user is `pi` with home directory `/home/pi`.
+The file `_autostart` and `displ` need to be changed if not!
 
 #### Packages
 Install all the required packages:
@@ -48,7 +51,7 @@ Install all the required packages:
 #### Download
 Clone the git repo:
 
-`mkdir ~/git; cd ~/git; git clone https://gitlab.com/pepa65/bulletin`
+`mkdir ~/git; cd ~/git; git clone https://gitlab.com/pepa65/bulletin`; cd bulletin
 
 #### Autostart
 The file `autostart` for the lxsession autostart file needs to be linked in:
@@ -57,15 +60,15 @@ The file `autostart` for the lxsession autostart file needs to be linked in:
 `cp _autostart autostart; ln -sf "$PWD/autostart" "$lxconfdir"`
 
 #### Set URL
-In `websrv` replace `%IP` & `%PORT` with the an IP address and port number.
+`cp _show show`
+
+In `show` put SITE (IP:PORT) inside the single quotes in `SITE=''`
 (Suitable IP addresses can be gleaned by: `ip a |grep -o 'inet[^ ]* [^/]*'`.)
 
-**For 'bulletin' set the Google slides base URL in `web/index.html`!**
-
-**For 'piscreen' set the URL in `websrv`!**
-
-Replace %URL with the full URL of the page to be displayed.
+* For **bulletin** set the Google slides BASEURL in file `web/index.html`! For CRICS:
+   docs.google.com/presentation/d/e/2PACX-1vRvUDuEXVO03r8LiDLhtZHqMpqN1ByvpTYreV27QQdoT9cbZ1-xknPT-D2cYu_o8Cr6ZfsdCLJ167xI
+* For **piscreen** set the URL in `show`!**
 
 #### Set screentimes
 Add crontab lines to turn the screen on & off at certain times:
-`crontab < <(crontab -l; echo -e "\n# Display maybe On at 7:30 Mo-Fr\n"'30 7 * * 1-5' "$HOME/git/bulletin/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$HOME/git/bulletin/displ off\n")`
+`crontab < <(crontab -l; echo -e "\n# Display On at 7:00 Mo-Fr on a schoolday\n"'0 7 * * 1-5' "$HOME/git/bulletin/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$HOME/git/bulletin/displ off\n")`
