@@ -9,7 +9,7 @@
 
 sudo apt-get install -y git surf unclutter xdotool lxsession php-fpm
 
-cd -
+cd
 pwd=$PWD
 mkdir git
 cd git
@@ -23,14 +23,16 @@ chmod +x show
 sed -i 's@"$SITE"@'$SITE'@' show
 sed -i 's@"$URL"@'$1'@' show
 
+[[ ! $pwd = /home/pi ]] &&
+	sed -i "s@/home/pi@$pwd@" autostart &&
+	sed -i "s@/home/pi@$pwd@" displ
+lxconfdir=$pwd/.config/lxsession/LXDE
 shopt -s nullglob
-cp _autostart autostart
-[[ $pwd = /home/pi ]] || sed -i "s@/home/pi@$pwd@" autostart
-lxconfdir=/home/pi/.config/lxsession/LXDE
 n=$(echo "$lxconfdir"* |wc -w)
 ((n)) || mkdir -p "$lxconfdir"
 for d in "$lxconfdir"*
-do ln -sf "$PWD/autostart" "$d"
+do [[ -f "$d/autostart" ]] && mv -n "$d/autostart" "$d/autostart_orig"
+	ln -sf "autostart" "$d"
 done
 
 crontab < <(crontab -l; echo -e "\n# Display On at 7:00 Mo-Fr on a schoolday\n"'0 7 * * 1-5' "$PWD/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$PWD/displ off\n")

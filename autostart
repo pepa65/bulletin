@@ -17,4 +17,4 @@
 @unclutter -idle 0.01
 
 # Start the show
-@/home/pi/git/bulletin/show log
+@~/git/bulletin/show log
