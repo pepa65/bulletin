@@ -9,7 +9,7 @@ set +vx
 
 : ${SITE:="$SITE"}
 : ${URL:="$URL"}
-[[ $URL ]] || URL="http://SITE/index.html"
+[[ $URL ]] || URL="http://$SITE/index.html"
 srv="/usr/bin/php -S $SITE -t $HOME/git/bulletin/web"
 brw='/usr/bin/surf -bmpF'
 

@@ -41,13 +41,14 @@ If there is overscan (content not aligning well with screen edges), the
 `setoverscan` tool can be used from https://github.com/pepa65/setoverscan
 
 ### Automated Install
-Download this file with wget:
+Download the file `https://gitlab.com/pepa65/bulletin/raw/master/INSTALL`
+with wget:
 
-`wget -O https://gitlab.com/pepa65/bulletin/raw/master/INSTALL`
+`wget 4e4.win/piscreen`
 
-Edit the top of the script to have either URL or GSURL defined.
+Edit the top of the `piscreen` script to have either URL or GSURL defined.
 
-Then the manual install can be skipped by doing: `bash INSTALL`
+Then the whole manual install can be skipped by doing: `bash INSTALL`
 
 ### Manual Install
 Studying what happens in INSTALL will give more clues as to what is needed.

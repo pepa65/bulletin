@@ -42,6 +42,7 @@ cd bulletin
 repo=$PWD
 
 # Construct the show script
+[[ -f show ]] && mv show show.moved$RANDOM
 cp _show show
 chmod +x show
 if [[ $GSURL ]]
@@ -50,22 +51,20 @@ then
 	[[ -z $IP ]] &&
 		IP=$(ip a |grep -o 'inet[^ ]* [^/]*' |grep -v ' 127.' |grep -v ' ::1' |head -1) SITE=${IP##* }:$PORT
 	sed -i "s@GSURL@$GSURL@" web/index.html
-	sed -i 's@"$SITE"@'$SITE'@' show
+	sed -i 's@"$SITE"'"@'$SITE'@" show
 else
-	sed -i 's@"$URL"@'$1'@' show
+	sed -i 's@"$URL"'"@'$URL'@" show
 fi
 
-# Adjust $HOME where needed
-[[ ! $home = /home/pi ]] &&
-	sed -i "s@/home/pi@$home@" autostart &&
-	sed -i "s@/home/pi@$home@" displ
+# Adjust HOME
+[[ ! $home = /home/pi ]] && sed -i "s@/home/pi@$home@" autostart
 
 # Install LXDE autostart
-lxconfdir=$home/.config/lxsession/LXDE
+lxconfdir=$home/.config/lxsession
 shopt -s nullglob
-n=$(echo "$lxconfdir"* |wc -w)
-((n)) || mkdir -p "$lxconfdir"
-for d in "$lxconfdir"*
+n=$(echo "$lxconfdir"/* |wc -w)
+((n)) || mkdir -p "$lxconfdir/LXDE"
+for d in "$lxconfdir"/*
 do [[ -f "$d/autostart" ]] && mv -n "$d/autostart" "$d/autostart_orig"
 	ln -sf "$repo/autostart" "$d"
 done
