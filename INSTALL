@@ -1,38 +1,54 @@
 #!/usr/bin/env bash
 
 # INSTALL - Run this to install piscreen/bulletin
-# Usage:  bash INSTALL <URL> | <BASEURL> <SITE>
-#   If the full URL to a webpage is given, 'piscreen' gets installed,
-#   otherwise 'bulletin' will get served on SITE (IP:PORT of the Pi).
-#   Environment variables URL BASEURL SITE can be set before running this.
+# Usage:  bash INSTALL [<URL>] [<SITE>]
+#   If SITE is given, then 'bulletin' will get served on SITE (must be IP:PORT
+#   of the Pi; if SITE is a PORT number then the IP is autodetermined ).
+#   The 'bulletin' serves the URL in an iframe with a infobar on top.
+#   If SITE is not given, then 'piscreen' will show the URL in the browser.
+#   If URL is not given, then 'bulletin' will be 
+#   Environment variables URL and SITE can be used instead of $1 and $2.
 # Required: sudo apt-get coreutils(cd mkdir cp chmod head ln) git grep sed cron
 
+: ${SLIDESURL:='docs.google.com/presentation/d/e/2PACX-1vRvUDuEXVO03r8LiDLhtZHqMpqN1ByvpTYreV27QQdoT9cbZ1-xknPT-D2cYu_o8Cr6ZfsdCLJ167xI'}
+: ${PORT:=8888}
+
+# Install additional packages
 sudo apt-get install -y git surf unclutter xdotool lxsession php-fpm
 
+# Download the repo
 cd
-pwd=$PWD
+home=$PWD
 mkdir git
 cd git
 git clone 'https://gitlab.com/pepa65/bulletin'
 cd bulletin
+repo=$PWD
 
+# Construct the show script
 cp _show show
 chmod +x show
-[[ $2 ]] && SITE=$2
-[[ $SITE ]] || ip=$(ip a |grep -o 'inet[^ ]* [^/]*' |grep -v ' 127.' |grep -v ' ::1' |head -1) SITE=${ip##* }:8888
+[[ $2 ]] && SITE=$2 URL=
+[[ ${SITE//[0-9]} ]] &&
+	ip=$(ip a |grep -o 'inet[^ ]* [^/]*' |grep -v ' 127.' |grep -v ' ::1' |head -1) SITE=${ip##* }:$SITE
 sed -i 's@"$SITE"@'$SITE'@' show
-sed -i 's@"$URL"@'$1'@' show
+[[ -z $SITE ]] && sed -i 's@"$URL"@'$1'@' show ||
+	sed -i "s@SLIDESURL@$URL@" web/index.html
 
-[[ ! $pwd = /home/pi ]] &&
-	sed -i "s@/home/pi@$pwd@" autostart &&
-	sed -i "s@/home/pi@$pwd@" displ
-lxconfdir=$pwd/.config/lxsession/LXDE
+# Adjust $HOME where needed
+[[ ! $home = /home/pi ]] &&
+	sed -i "s@/home/pi@$home@" autostart &&
+	sed -i "s@/home/pi@$home@" displ
+
+# Install LXDE autostart
+lxconfdir=$home/.config/lxsession/LXDE
 shopt -s nullglob
 n=$(echo "$lxconfdir"* |wc -w)
 ((n)) || mkdir -p "$lxconfdir"
 for d in "$lxconfdir"*
 do [[ -f "$d/autostart" ]] && mv -n "$d/autostart" "$d/autostart_orig"
-	ln -sf "autostart" "$d"
+	ln -sf "$repo/autostart" "$d"
 done
 
-crontab < <(crontab -l; echo -e "\n# Display On at 7:00 Mo-Fr on a schoolday\n"'0 7 * * 1-5' "$PWD/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$PWD/displ off\n")
+# Install crontab
+crontab - < <(crontab -l; echo -e "\n# Display On at 7:00 Mo-Fr on a schoolday\n"'0 7 * * 1-5' "$repo/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$repo/displ off\n")
