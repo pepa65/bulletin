@@ -10,7 +10,7 @@ set -e
 #   or else the IP is inferred and the PORT is as specified or 8888 (default).
 # Required: sudo apt-get grep sed cron libraspberrypi-bin(vcgencmd)[displ]
 #   git surf unclutter xdotool lxsession php-fpm[bulletin]
-#   coreutils(cd mkdir cp chmod head ln)
+#   coreutils(cd mkdir mv cp chmod head ln)
 
 URL='https://aqi.crics.asia'
 #GSURL='docs.google.com/presentation/d/e/2PACX-1vRvUDuEXVO03r8LiDLhtZHqMpqN1ByvpTYreV27QQdoT9cbZ1-xknPT-D2cYu_o8Cr6ZfsdCLJ167xI'

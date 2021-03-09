@@ -4,12 +4,24 @@
 # bulletin
 **Running a Google slide show with a top info bar on a screen attached to a Raspberry Pi**
 
-* Required: surf unclutter xdotool lxsession(Raspbian)
+* Required: sudo apt-get grep sed cron libraspberrypi-bin(vcgencmd)[displ]
+  git surf unclutter xdotool lxsession php-fpm[bulletin]
+  coreutils(cd mkdir mv cp chmod head ln)
 * Repo: https://gitlab.com/pepa65/bulletin
-* In case the browser needs to be refreshed after a slides change, go to:
+* If the **bulletin** needs to be refreshed after a slides change, go to:
   `http://SITE/refresh.php`
 * The script `f5` can be run to refresh the browser
 * The script `displ` can be run to turn the display on or off
+
+## Function
+* For **piscreen** a specified URL is displayed in the browser on startup.
+* For **bulletin** a Google Slides presentation is running in the browser
+  in an iframe with a bar on top with logo, title, time and AQI.
+  This is served by a webserver from `web/index.html`.
+* In both cases, the browser is through the LXDE lxsession `autostart` file,
+  which calls `show` (which also starts the web server for **bulletin**).
+  Calling `show stop` stops the browser (and web server), while `show start`
+  restarts (and `show log` starts and logs).
 
 ## Install
 ### Raspberry OS
@@ -31,42 +43,45 @@ If there is overscan (content not aligning well with screen edges), the
 ### Automated Install
 Download this file with wget:
 
-`wget -O https://github.com/pepa65/bulletin/raw/master/INSTALL`
+`wget -O https://gitlab.com/pepa65/bulletin/raw/master/INSTALL`
 
-All the following can be done with 1 command, installing either **bulletin**
-or **piscreen**:
-1. `bash INSTALL <BASEURL> <IP:PORT>`  # Installing **bulletin** to display the
-   topbar and the BASEURL that are served on the Pi's IP address on PORT.
-2. `bash INSTALL <URL>`  # Installing **piscreen** for URL
+Edit the top of the script to have either URL or GSURL defined.
+
+Then the manual install can be skipped by doing: `bash INSTALL`
 
 ### Manual Install
+Studying what happens in INSTALL will give more clues as to what is needed.
+
+#### Home directory
 The assumption is that the user is `pi` with home directory `/home/pi`.
-The file `_autostart` and `displ` need to be changed if not!
+The file `autostart` and `displ` need to be changed if not!
 
 #### Packages
 Install all the required packages:
 
-`apt install git surf unclutter xdotool lxsession php-fpm`
+`apt install git surf unclutter xdotool lxsession php-fpm libraspberrypi-bin`
 
 #### Download
 Clone the git repo:
 
-`mkdir ~/git; cd ~/git; git clone https://gitlab.com/pepa65/bulletin`; cd bulletin
+`mkdir -p ~/git; cd ~/git; git clone https://gitlab.com/pepa65/bulletin; cd bulletin`
 
 #### Autostart
 The file `autostart` for the lxsession autostart file needs to be linked in:
 
+__Watch out for a different directory under lxsession!__
+
 `lxconfdir=~/.config/lxsession/LXDE; mkdir -p "$lxconfdir"`
-`cp _autostart autostart; ln -sf "$PWD/autostart" "$lxconfdir"`
+
+`ln -sf "$PWD/autostart" "$lxconfdir"`
 
 #### Set URL
 `cp _show show`
 
-In `show` put SITE (IP:PORT) inside the single quotes in `SITE=''`
+At the top of `show` set SITE (IP:PORT with IP of the Pi and desired PORT).
 (Suitable IP addresses can be gleaned by: `ip a |grep -o 'inet[^ ]* [^/]*'`.)
 
-* For **bulletin** set the Google slides BASEURL in file `web/index.html`! For CRICS:
-   docs.google.com/presentation/d/e/2PACX-1vRvUDuEXVO03r8LiDLhtZHqMpqN1ByvpTYreV27QQdoT9cbZ1-xknPT-D2cYu_o8Cr6ZfsdCLJ167xI
+* For **bulletin** replace `GSURL` with the base URL of the Google Slides in file `web/index.html`.
 * For **piscreen** set the URL in `show`!**
 
 #### Set screentimes
