@@ -25,20 +25,21 @@ then
 elif [[ $1 = start || $1 = log ]]
 then
 	pgrep -f "$brw" &&
-		echo "Browser was running" ||
+		echo "Browser was running already" ||
 		DISPLAY=:0 $brw "$URL" &
 	if pgrep -f "$srv"
-	then
-		echo "Web server was running"
+	then echo "Web server was running already"
 	else
-		[[ $1 = log ]] && null=$0.log || null=/dev/null
-		$srv 2>"$null" &
-		pid=$!
-		sleep 1
-		kill -0 $pid &&
-			echo "Web server started on http://$SITE" ||
-			echo "Failed to start web server on http://$SITE"
+		if [[ $SITE ]]
+		then
+			[[ $1 = log ]] && null=$0.log || null=/dev/null
+			$srv 2>"$null" &
+			pid=$!
+			sleep 1
+			kill -0 $pid &&
+				echo "Web server started on http://$SITE" ||
+				echo "Failed to start web server on http://$SITE"
+		fi
 	fi
-else
-	echo "Usage:  show start|log | stop|kill"
+else echo "Usage:  show start|log | stop|kill"
 fi

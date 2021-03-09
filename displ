@@ -5,6 +5,7 @@
 # Example crontab lines:
 #     30 7 * * 1-5 /home/pi/git/bulletin/displ
 #     0 17 * * 1-5 /home/pi/git/bulletin/displ off
+# Require: libraspberrypi-bin wget date grep
 
 [[ $1 = on || $1 = 1 ]] && vcgencmd display_power 1 && exit 0
 [[ $1 = off || $1 = 0 ]] && vcgencmd display_power 0 && exit 0

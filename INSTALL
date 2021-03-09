@@ -1,26 +1,42 @@
 #!/usr/bin/env bash
+set -e
+# INSTALL - Install piscreen/bulletin on RPiOS
+# Download: https://4e4.win/bulletin or https://gitlab.com/pepa65/bulletin/raw/master/INSTALL
+# Usage:  bash INSTALL
+#   If URL is specified below, 'piscreen' will show that page in the browser on
+#   startup, otherwise a Google Slides URL (GSURL) needs to be specified below
+#   and then 'bulletin' is served on SITE and shown in the broweser on startup:
+#   those Google Slides with a header, served on IP if specified (and valid),
+#   or else the IP is inferred and the PORT is as specified or 8888 (default).
+# Required: sudo apt-get grep sed cron libraspberrypi-bin(vcgencmd)[displ]
+#   git surf unclutter xdotool lxsession php-fpm[bulletin]
+#   coreutils(cd mkdir cp chmod head ln)
 
-# INSTALL - Run this to install piscreen/bulletin
-# Usage:  bash INSTALL [<URL>] [<SITE>]
-#   If SITE is given, then 'bulletin' will get served on SITE (must be IP:PORT
-#   of the Pi; if SITE is a PORT number then the IP is autodetermined ).
-#   The 'bulletin' serves the URL in an iframe with a infobar on top.
-#   If SITE is not given, then 'piscreen' will show the URL in the browser.
-#   If URL is not given, then 'bulletin' will be 
-#   Environment variables URL and SITE can be used instead of $1 and $2.
-# Required: sudo apt-get coreutils(cd mkdir cp chmod head ln) git grep sed cron
+URL='https://aqi.crics.asia'
+#GSURL='docs.google.com/presentation/d/e/2PACX-1vRvUDuEXVO03r8LiDLhtZHqMpqN1ByvpTYreV27QQdoT9cbZ1-xknPT-D2cYu_o8Cr6ZfsdCLJ167xI'
+IP=
+PORT=8888
 
-: ${SLIDESURL:='docs.google.com/presentation/d/e/2PACX-1vRvUDuEXVO03r8LiDLhtZHqMpqN1ByvpTYreV27QQdoT9cbZ1-xknPT-D2cYu_o8Cr6ZfsdCLJ167xI'}
-: ${PORT:=8888}
+# Check preparation
+[[ $URL && $GSURL ]] &&
+	echo "Abort: either specify a URL or a Google-Slide GSURL, comment one out" &&
+	exit 1
 
-# Install additional packages
-sudo apt-get install -y git surf unclutter xdotool lxsession php-fpm
+[[ -z $URL && -z $GSURL ]] &&
+	echo "Abort: specify either a URL or a Google-Slide GSURL" &&
+	exit 2
+
+# Install additionally required packages
+! sudo apt-get install -y git surf unclutter xdotool lxsession php-fpm libraspberrypi-bin &&
+	echo "Abort: required packages not installed" &&
+	exit 3
 
 # Download the repo
 cd
 home=$PWD
-mkdir git
+mkdir -p git
 cd git
+[[ -e bulletin ]] && mv bulletin bulletin.moved$RANDOM
 git clone 'https://gitlab.com/pepa65/bulletin'
 cd bulletin
 repo=$PWD
@@ -28,12 +44,16 @@ repo=$PWD
 # Construct the show script
 cp _show show
 chmod +x show
-[[ $2 ]] && SITE=$2 URL=
-[[ ${SITE//[0-9]} ]] &&
-	ip=$(ip a |grep -o 'inet[^ ]* [^/]*' |grep -v ' 127.' |grep -v ' ::1' |head -1) SITE=${ip##* }:$SITE
-sed -i 's@"$SITE"@'$SITE'@' show
-[[ -z $SITE ]] && sed -i 's@"$URL"@'$1'@' show ||
-	sed -i "s@SLIDESURL@$URL@" web/index.html
+if [[ $GSURL ]]
+then
+	[[ -z $PORT ]] && PORT=8888
+	[[ -z $IP ]] &&
+		IP=$(ip a |grep -o 'inet[^ ]* [^/]*' |grep -v ' 127.' |grep -v ' ::1' |head -1) SITE=${IP##* }:$PORT
+	sed -i "s@GSURL@$GSURL@" web/index.html
+	sed -i 's@"$SITE"@'$SITE'@' show
+else
+	sed -i 's@"$URL"@'$1'@' show
+fi
 
 # Adjust $HOME where needed
 [[ ! $home = /home/pi ]] &&
