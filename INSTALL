@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -e
 # INSTALL - Install piscreen/bulletin on RPiOS
-# Download: https://4e4.win/bulletin or https://gitlab.com/pepa65/bulletin/raw/master/INSTALL
+# Download: https://4e4.win/piscreen
+#   (redirects to https://gitlab.com/pepa65/bulletin/raw/master/INSTALL)
 # Usage:  bash INSTALL
 #   If URL is specified below, 'piscreen' will show that page in the browser on
 #   startup, otherwise a Google Slides URL (GSURL) needs to be specified below
@@ -31,14 +32,20 @@ PORT=8888
 	echo "Abort: required packages not installed" &&
 	exit 3
 
-# Download the repo
+# Download the repo only if not called from within it
 cd
 home=$PWD
 mkdir -p git
 cd git
-[[ -e bulletin ]] && mv bulletin bulletin.moved$RANDOM
-git clone 'https://gitlab.com/pepa65/bulletin'
-cd bulletin
+if [[ $(readlink -e $0) = $(readlink -e bulletin/INSTALL) ]]
+then  # Update repo
+	cd bulletin
+	git pull
+else  # Download repo
+	[[ -e bulletin ]] && mv bulletin bulletin.moved$RANDOM
+	git clone 'https://gitlab.com/pepa65/bulletin'
+	cd bulletin
+fi
 repo=$PWD
 
 # Construct the show script
