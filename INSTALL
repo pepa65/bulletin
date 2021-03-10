@@ -37,15 +37,12 @@ cd
 home=$PWD
 mkdir -p git
 cd git
-if [[ $(readlink -e $0) = $(readlink -e bulletin/INSTALL) ]]
-then  # Update repo
-	cd bulletin
-	git pull
-else  # Download repo
+if [[ ! $(readlink -e $0) = $(readlink -e bulletin/INSTALL) ]]
+then  # Download repo
 	[[ -e bulletin ]] && mv bulletin bulletin.moved$RANDOM
 	git clone 'https://gitlab.com/pepa65/bulletin'
-	cd bulletin
 fi
+cd bulletin
 repo=$PWD
 
 # Construct the show script
