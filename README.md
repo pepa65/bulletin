@@ -12,6 +12,7 @@
   `http://SITE/refresh.php`
 * The script `f5` can be run to refresh the browser
 * The script `displ` can be run to turn the display on or off
++ The script `show` controls the start & stop of the browser (and web server)
 
 ## Function
 * For **piscreen** a specified URL is displayed in the browser on startup.
@@ -87,4 +88,4 @@ At the top of `show` set SITE (IP:PORT with IP of the Pi and desired PORT).
 
 #### Set screentimes
 Add crontab lines to turn the screen on & off at certain times:
-`crontab < <(crontab -l; echo -e "\n# Display On at 7:00 Mo-Fr on a schoolday\n"'0 7 * * 1-5' "$HOME/git/bulletin/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$HOME/git/bulletin/displ off\n")`
+`crontab - < <(crontab -l 2>/dev/null; echo -e "\n# Display On at 7:00 Mo-Fr on a schoolday\n"'0 7 * * 1-5' "$HOME/git/bulletin/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$HOME/git/bulletin/displ off\n")`

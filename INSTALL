@@ -9,7 +9,7 @@ set -e
 #   those Google Slides with a header, served on IP if specified (and valid),
 #   or else the IP is inferred and the PORT is as specified or 8888 (default).
 # Required: sudo apt-get grep sed cron libraspberrypi-bin(vcgencmd)[displ]
-#   git surf unclutter xdotool lxsession php-fpm[bulletin]
+#   git surf unclutter xdotool lxsession php-cli[bulletin]
 #   coreutils(cd mkdir mv cp chmod head ln)
 
 URL='https://aqi.crics.asia'
@@ -27,7 +27,7 @@ PORT=8888
 	exit 2
 
 # Install additionally required packages
-! sudo apt-get install -y git surf unclutter xdotool lxsession php-fpm libraspberrypi-bin &&
+! sudo apt-get install -y git surf unclutter xdotool lxsession php-cli libraspberrypi-bin &&
 	echo "Abort: required packages not installed" &&
 	exit 3
 
@@ -60,6 +60,11 @@ fi
 [[ -f autostart ]] && mv autostart autostart.moved$RANDOM
 cp _autostart autostart
 [[ ! $home = /home/pi ]] && sed -i "s@/home/pi@$home@" autostart
+
+# Install scripts
+sudo ln -sf "$repo/f5" /usr/local/bin
+sudo ln -sf "$repo/displ" /usr/local/bin
+sudo ln -sf "$repo/show" /usr/local/bin
 
 # Install LXDE autostart
 lxconfdir=$home/.config/lxsession
