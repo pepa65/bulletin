@@ -57,6 +57,8 @@ else
 fi
 
 # Adjust HOME
+[[ -f autostart ]] && mv autostart autostart.moved$RANDOM
+cp _autostart autostart
 [[ ! $home = /home/pi ]] && sed -i "s@/home/pi@$home@" autostart
 
 # Install LXDE autostart
