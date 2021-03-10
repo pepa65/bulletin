@@ -56,17 +56,15 @@ else
 	sed -i 's@"$URL"'"@'$URL'@" show
 fi
 
-# Adjust HOME
-[[ -f autostart ]] && mv autostart autostart.moved$RANDOM
-cp _autostart autostart
-[[ ! $home = /home/pi ]] && sed -i "s@/home/pi@$home@" autostart
-
 # Install scripts
 sudo ln -sf "$repo/f5" /usr/local/bin
 sudo ln -sf "$repo/displ" /usr/local/bin
 sudo ln -sf "$repo/show" /usr/local/bin
 
 # Install LXDE autostart
+[[ -f autostart ]] && mv autostart autostart.moved$RANDOM
+cp _autostart autostart
+[[ ! $home = /home/pi ]] && sed -i "s@/home/pi@$home@" autostart
 lxconfdir=$home/.config/lxsession
 shopt -s nullglob
 n=$(echo "$lxconfdir"/* |wc -w)

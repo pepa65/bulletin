@@ -1,0 +1,20 @@
+# /home/pi/.config/lxsession/*/autostart
+
+#@lxpanel --profile LXDE
+#@pcmanfm --desktop --profile LXDE
+#@xscreensaver -no-splash
+
+# No screensaver
+@xset s off
+
+# No powermanager
+@xset -dpms
+
+# No screen blanking
+@xset s noblank
+
+# No cursor
+@unclutter -idle 0.01
+
+# Start the show
+@/home/pi/git/bulletin/show log
