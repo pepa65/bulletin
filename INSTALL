@@ -78,5 +78,9 @@ do [[ -f "$d/autostart" ]] && mv -n "$d/autostart" "$d/autostart_orig"
 	ln -sf "$repo/autostart" "$d"
 done
 
-# Install crontab
-crontab - < <(crontab -l; echo -e "\n# Display On at 7:00 Mo-Fr on a schoolday\n"'0 7 * * 1-5' "$repo/displ\n\n# Display Off at 17:00 Mo-Fr\n"'0 17 * * 1-5' "$repo/displ off\n")
+# Install crontab if empty
+crontab -l |grep -q bulletin/displ && {
+		crontab -l
+		echo -e "\n# Display On at 7:00 Mo-Fr on a schoolday\n0 7 * * 1-5 $repo/displ"
+		echo -e "\n# Display Off at 17:00 Mo-Fr\n0 17 * * 1-5 $repo/displ off\n"
+	} |crontab -
