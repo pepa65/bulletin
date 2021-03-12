@@ -55,9 +55,9 @@ then
 	[[ -z $IP ]] &&
 		IP=$(ip a |grep -o 'inet[^ ]* [^/]*' |grep -v ' 127.' |grep -v ' ::1' |head -1) SITE=${IP##* }:$PORT
 	sed -i "s@GSURL@$GSURL@" web/index.html
-	sed -i 's@"$SITE"'"@'$SITE'@" show
+	sed -i "s@=\$SITE@=$SITE@" show
 else
-	sed -i 's@"$URL"'"@'$URL'@" show
+	sed -i 's@="=\$URL@=$URL@" show
 fi
 
 # Install scripts

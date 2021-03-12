@@ -8,8 +8,8 @@ set +vx
 # Usage:  show start|log | stop|kill
 # Required: procps(pkill pgrep kill) php-cli surf coreutils(sleep)
 
-: ${SITE:="$SITE"}
-: ${URL:="$URL"}
+: ${SITE:=$SITE}
+: ${URL:=$URL}
 [[ $URL ]] || URL="http://$SITE/index.html"
 srv="/usr/bin/php -S $SITE -t $HOME/git/bulletin/web"
 brw='/usr/bin/surf -bmpF'
@@ -34,7 +34,7 @@ then
 		if [[ $SITE ]]
 		then
 			[[ $1 = log ]] && null=$0.log || null=/dev/null
-			$srv 2>"$null" &
+			$srv 2>>"$null" &
 			pid=$!
 			sleep 1
 			kill -0 $pid &&
