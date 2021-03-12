@@ -57,7 +57,7 @@ then
 	sed -i "s@GSURL@$GSURL@" web/index.html
 	sed -i "s@=\$SITE@=$SITE@" show
 else
-	sed -i 's@="=\$URL@=$URL@" show
+	sed -i "s@=\$URL@=$URL@" show
 fi
 
 # Install scripts
