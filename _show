@@ -24,9 +24,9 @@ Usage(){
 : ${URL:=$URL}
 [[ $URL ]] || URL="http://$SITE/index.html"
 srv="/usr/bin/php -S $SITE -t $HOME/git/bulletin/web"
-brw='/usr/bin/surf -bmpF'
+brw='/usr/bin/surf -bmptwF'
 
-mode=start log=1
+log=1
 case $1 in
 help|h|-h|--help) Usage; exit 0 ;;
 kill|k|stop) mode=kill ;;
@@ -41,16 +41,20 @@ then
 	[[ $SITE ]] && pkill -f "$srv" &&
 		echo "Web server terminated" ||
 		echo "Web server was not running"
-	pkill -f  "$brw" &&
+	pkill -f "$brw" &&
 		echo "Browser terminated" ||
 		echo "Browser was not running"
 fi
 
 if [[ $mode = start || $mode = restart ]]
 then
-	pgrep -f "$brw" &&
-		echo "Browser was running already" ||
+	if pgrep -f "$brw"
+	then echo "Browser was running already"
+	else
+		echo -n 'Browser starting: '
 		DISPLAY=:0 $brw "$URL" &
+		sleep 4
+	fi
 	if pgrep -f "$srv"
 	then echo "Web server was running already"
 	else
