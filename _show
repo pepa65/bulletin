@@ -1,12 +1,24 @@
 #!/usr/bin/env bash
 set +vx
-# show - Start browser (and php server if needed)
-# Started by lxsession's autostart, can be started & stopped manually.
+# show - Manage browser (and php server if applicable)
+# Started by lxsession's autostart, can be managed manually.
 # Environmental variables can override the baked-in settings:
 # - SITE for the web server
 # - URL for the browser
-# Usage:  show start|log | stop|kill
 # Required: procps(pkill pgrep kill) php-cli surf coreutils(sleep)
+
+Usage(){
+	cat <<-EOH
+		${0##*/} - Manage browser (and php server if applicable)
+		Usage:  show [restart|r|log|l] start|s | nolog|n | stop|kill|k
+		    restart/r/log/l:  Stop and start with logging (default)
+		    start/s:          Start with logging
+		    nolog/n:          Start without logging
+		    kill/k/stop:      Stop
+		    help/h:           Show usage
+		  Logging only applies when the php server is running, ignored otherwise
+	EOH
+}
 
 : ${SITE:=$SITE}
 : ${URL:=$URL}
@@ -14,7 +26,17 @@ set +vx
 srv="/usr/bin/php -S $SITE -t $HOME/git/bulletin/web"
 brw='/usr/bin/surf -bmpF'
 
-if [[ $1 = stop || $1 = kill ]]
+mode=start log=1
+case $1 in
+help|h|-h|--help) Usage; exit 0 ;;
+kill|k|stop) mode=kill ;;
+nolog|n) mode=start log=0 ;;
+start|s) mode=start ;;
+restart|r|log|l|'') mode=restart ;;
+*) Usage; exit 1
+esac
+
+if [[ $mode = kill || $mode = restart ]]
 then
 	[[ $SITE ]] && pkill -f "$srv" &&
 		echo "Web server terminated" ||
@@ -22,8 +44,9 @@ then
 	pkill -f  "$brw" &&
 		echo "Browser terminated" ||
 		echo "Browser was not running"
-	exit 0
-elif [[ $1 = start || $1 = log ]]
+fi
+
+if [[ $mode = start || $mode = restart ]]
 then
 	pgrep -f "$brw" &&
 		echo "Browser was running already" ||
@@ -33,7 +56,7 @@ then
 	else
 		if [[ $SITE ]]
 		then
-			[[ $1 = log ]] && null=$0.log || null=/dev/null
+			((log)) && null=$0.log || null=/dev/null
 			$srv 2>>"$null" &
 			pid=$!
 			sleep 1
@@ -42,5 +65,4 @@ then
 				echo "Failed to start web server on http://$SITE"
 		fi
 	fi
-else echo "Usage:  show start|log | stop|kill"
 fi
