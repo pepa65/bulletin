@@ -10,7 +10,7 @@ set -e
 #   those Google Slides with a header, served on IP if specified (and valid),
 #   or else the IP is inferred and the PORT is as specified or 8888 (default).
 # Required: sudo apt-get grep sed cron libraspberrypi-bin(vcgencmd)[displ]
-#   git surf unclutter xdotool lxsession php-cli[bulletin]
+#   git surf unclutter xdotool lxsession php-cli
 #   coreutils(cd mkdir mv cp chmod head ln)
 
 URL='https://aqi.crics.asia'
@@ -49,19 +49,15 @@ repo=$PWD
 [[ -f show ]] && mv show show.moved$RANDOM
 cp _show show
 chmod +x show
-if [[ $GSURL ]]
-then
-	[[ -z $PORT ]] && PORT=8888
-	[[ -z $IP ]] &&
+[[ -z $PORT ]] && PORT=8888
+[[ -z $IP ]] &&
 		IP=$(ip a |grep -o 'inet[^ ]* [^/]*' |grep -v ' 127.' |grep -v ' ::1' |head -1) SITE=${IP##* }:$PORT
-	sed -i "s@GSURL@$GSURL@" web/index.html
-	sed -i "s@=\$SITE@=$SITE@" show
-else
+sed -i "s@=\$SITE@=$SITE@" show
+[[ $GSURL ]] && sed -i "s@GSURL@$GSURL@" web/index.html ||
 	sed -i "s@=\$URL@=$URL@" show
-fi
 
 # Install scripts
-sudo ln -sf "$repo/f5" /usr/local/bin
+sudo ln -sf "$repo/refr" /usr/local/bin
 sudo ln -sf "$repo/displ" /usr/local/bin
 sudo ln -sf "$repo/show" /usr/local/bin
 

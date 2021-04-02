@@ -1,40 +1,67 @@
 #!/usr/bin/env bash
 set +vx
-# show - Start browser (and php server if needed)
-# Started by lxsession's autostart, can be started & stopped manually.
-# Environmental variables can override the baked-in settings:
-# - SITE for the web server
-# - URL for the browser
-# Usage:  show start|log | stop|kill
+# show - Manage browser (and php server if applicable)
+# Started by lxsession's autostart, can be managed from the commandline.
+# Environment variables can override the baked-in settings:
+#  SITE (IP:PORT for web server), URL (browser), LOG (log file)
 # Required: procps(pkill pgrep kill) php-cli surf coreutils(sleep)
 
-: ${SITE:=$SITE}
-: ${URL:=$URL}
+Usage(){
+	cat <<-EOH
+		${0##*/} - Manage browser (and php server if applicable)
+		Usage:  show [ restart|log | start | nolog | stop|kill ]
+		    restart/log:  [Default] Stop (if running) and start up with logging.
+		    start:        Start up, with logging
+		    nolog:        Start up, no logging
+		    kill/stop:    Stop (if running)
+		    help:         Show usage
+		  Also, 2 dashes can be prepended to the command flags, and they can be
+		  abbreviated to a single letter (except 'stop') and get a 1 dash prefix.
+		Logging only applies when the php server is running, ignored otherwise.
+	EOH
+}
+
+: ${SITE:=$SITE} ${URL:=$URL} ${LOG:=$LOG}
 [[ $URL ]] || URL="http://$SITE/index.html"
 srv="/usr/bin/php -S $SITE -t $HOME/git/bulletin/web"
-brw='/usr/bin/surf -bmpF'
+brw='/usr/bin/surf -bmptwF'
 
-if [[ $1 = stop || $1 = kill ]]
+log=1
+case $1 in
+help|h|-h|--help) Usage; exit 0 ;;
+kill|k|stop|--kill|-k|--stop) mode=kill ;;
+nolog|n|--nolog|-n) mode=start log=0 ;;
+start|s|--start|-s) mode=start ;;
+restart|r|log|l|--restart|-r|--log|-l|'') mode=restart ;;
+*) Usage; exit 1
+esac
+((log)) && LOG=${LOG:-$HOME/${0##*/}.log} || LOG=/dev/null
+
+if [[ $mode = kill || $mode = restart ]]
 then
 	[[ $SITE ]] && pkill -f "$srv" &&
 		echo "Web server terminated" ||
 		echo "Web server was not running"
-	pkill -f  "$brw" &&
+	pkill -f "$brw" &&
 		echo "Browser terminated" ||
 		echo "Browser was not running"
-	exit 0
-elif [[ $1 = start || $1 = log ]]
+fi
+
+if [[ $mode = start || $mode = restart ]]
 then
-	pgrep -f "$brw" &&
-		echo "Browser was running already" ||
+	if pgrep -f "$brw"
+	then echo "Browser was running already"
+	else
+		echo -n 'Browser starting: '
 		DISPLAY=:0 $brw "$URL" &
+		sleep 4
+	fi
 	if pgrep -f "$srv"
 	then echo "Web server was running already"
 	else
 		if [[ $SITE ]]
 		then
-			[[ $1 = log ]] && null=$0.log || null=/dev/null
-			$srv 2>>"$null" &
+			$srv 2>>"$LOG" &
 			pid=$!
 			sleep 1
 			kill -0 $pid &&
@@ -42,5 +69,5 @@ then
 				echo "Failed to start web server on http://$SITE"
 		fi
 	fi
-else echo "Usage:  show start|log | stop|kill"
 fi
+

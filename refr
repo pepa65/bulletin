@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# refr - Refresh the browser
+# Usage:  refr
+# Required: xdotool
+
+DISPLAY=:0 xdotool key ctrl+R

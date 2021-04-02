@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-# f5 - Send Ctrl_F5 (deep-refresh the browser's tab)
-# Usage:  f5
-# Required: xdotool
-
-DISPLAY=:0 xdotool key ctrl+F5
