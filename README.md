@@ -9,20 +9,20 @@
   coreutils(cd mkdir mv cp chmod head ln)
 * Repo: https://gitlab.com/pepa65/bulletin
 * If the display needs to be refreshed after a slides change or for some other
-  reason, go to: `http://SITE/refresh.php` (SITE is IP:PORT)
-* The script `refr` can be run to refresh the browser
-* The script `displ` can be run to turn the display on or off
-* The script `show` controls the start & stop of the browser and web server
+  reason, go to: `http://SITE/refresh.php` (SITE is IP:PORT).
+* The script `refr` can be run to refresh the browser.
+* The script `displ` can be run to turn the display on or off.
+* The script `show` controls the start & stop of the browser and web server.
+  (See `show --help` for all options.)
 
 ## Function
 * For **piscreen** a specified URL is displayed in the browser on startup.
 * For **bulletin** a Google Slides presentation is running in the browser
   in an iframe with a bar on top with logo, title, time and AQI.
   This is served by a webserver from `web/index.html`.
-* In both cases, the browser is through the LXDE lxsession `autostart` file,
-  which calls `show` (also starting a web server for **bulletin** or refresh).
-  Calling `show stop` stops the browser & web server.
-  (See `show --help` for all options.)
+* In both cases, the browser is started through the LXDE lxsession `autostart`
+  file, which calls `show` (also starting a web server to serve **bulletin**
+  and refresh.php).
 
 ## Install
 ### Raspberry OS
@@ -79,7 +79,8 @@ __Watch out for a different directory under lxsession!__
 At the top of `show` set SITE (IP:PORT with IP of the Pi and desired PORT).
 (Suitable IP addresses can be gleaned by: `ip a |grep -o 'inet[^ ]* [^/]*'`.)
 
-* For **bulletin** replace `GSURL` with the base URL of the Google Slides in file `web/index.html`.
+* For **bulletin** replace `GSURL` with the base URL of the Google Slides in
+  file `web/index.html` (after `cp web/_index.html web/index.html`).
 * For **piscreen** set the URL in `show`!**
 
 #### Set screentimes

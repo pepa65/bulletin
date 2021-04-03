@@ -53,7 +53,7 @@ chmod +x show
 [[ -z $IP ]] &&
 		IP=$(ip a |grep -o 'inet[^ ]* [^/]*' |grep -v ' 127.' |grep -v ' ::1' |head -1) SITE=${IP##* }:$PORT
 sed -i "s@=\$SITE@=$SITE@" show
-[[ $GSURL ]] && sed -i "s@GSURL@$GSURL@" web/index.html ||
+[[ $GSURL ]] && sed "s@GSURL@$GSURL@" web/_index.html >web/index.html ||
 	sed -i "s@=\$URL@=$URL@" show
 
 # Install scripts
